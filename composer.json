@@ -1,0 +1,27 @@
+{
+  "name": "bouledepate/woopleague-api",
+  "description": "API for Wooppay tournament platform.",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "vlucas/phpdotenv": "^5.5",
+    "slim/slim": "^4.12",
+    "php-di/php-di": "^7.0",
+    "yiisoft/validator": "^1.1",
+    "slim/psr7": "^1.6",
+    "nyholm/psr7": "^1.8",
+    "ramsey/uuid": "^4.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "WoopLeague\\Kernel\\": "src/Kernel",
+      "WoopLeague\\Application\\": "src/Application"
+    }
+  },
+  "authors": [
+    {
+      "name": "Semyon Shmik",
+      "email": "sshmik@wooppay.com"
+    }
+  ]
+}

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Entrypoint;
+namespace Kernel\Entrypoint;
 
 interface EntrypointController
 {

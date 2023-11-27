@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Middlewares\JsonRPC;
+namespace Kernel\Middlewares\JsonRPC;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidRequestException;
-use WoopLeague\Kernel\Error\JsonRpc\ParseErrorException;
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Error\JsonRpc\InvalidRequestException;
+use Kernel\Error\JsonRpc\ParseErrorException;
 
 final readonly class ValidationMiddleware implements MiddlewareInterface
 {

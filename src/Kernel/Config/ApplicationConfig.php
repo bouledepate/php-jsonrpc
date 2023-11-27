@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Config;
+namespace Kernel\Config;
 
 final readonly class ApplicationConfig
 {

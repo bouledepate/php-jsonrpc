@@ -10,14 +10,14 @@ use Psr\Container\NotFoundExceptionInterface;
 use Slim\App;
 use Slim\Factory\ServerRequestCreatorFactory;
 use Slim\Middleware\ErrorMiddleware;
-use WoopLeague\Kernel\Config\ApplicationConfig;
-use WoopLeague\Kernel\Entrypoint\EntrypointController;
-use WoopLeague\Kernel\Entrypoint\EntrypointNotSetException;
-use WoopLeague\Kernel\Error\ErrorHandler;
-use WoopLeague\Kernel\Error\ShutdownErrorHandler;
-use WoopLeague\Kernel\Middlewares\JsonRPC\ComplianceMiddleware;
-use WoopLeague\Kernel\Middlewares\JsonRPC\ContextMiddleware;
-use WoopLeague\Kernel\Middlewares\JsonRPC\ValidationMiddleware;
+use Kernel\Config\ApplicationConfig;
+use Kernel\Entrypoint\EntrypointController;
+use Kernel\Entrypoint\EntrypointNotSetException;
+use Kernel\Error\ErrorHandler;
+use Kernel\Error\ShutdownErrorHandler;
+use Kernel\Middlewares\JsonRPC\ComplianceMiddleware;
+use Kernel\Middlewares\JsonRPC\ContextMiddleware;
+use Kernel\Middlewares\JsonRPC\ValidationMiddleware;
 
 final readonly class Kernel
 {

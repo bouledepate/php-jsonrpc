@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Validation;
+namespace Kernel\Validation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;

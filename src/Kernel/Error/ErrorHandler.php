@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Error;
+namespace Kernel\Error;
 
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -11,9 +11,9 @@ use Slim\Exception\HttpForbiddenException;
 use Slim\Exception\HttpMethodNotAllowedException;
 use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidRequestException;
-use WoopLeague\Kernel\Error\JsonRpc\MethodNotFound;
-use WoopLeague\Kernel\Error\JsonRpc\ParseErrorException;
+use Kernel\Error\JsonRpc\InvalidRequestException;
+use Kernel\Error\JsonRpc\MethodNotFound;
+use Kernel\Error\JsonRpc\ParseErrorException;
 
 /**
  * @property Exception|AbstractException $exception

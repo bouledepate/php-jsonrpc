@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Definitions;
+namespace Kernel\Definitions;
 
 use RuntimeException;
 use Throwable;

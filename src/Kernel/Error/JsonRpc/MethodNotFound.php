@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Error\JsonRpc;
+namespace Kernel\Error\JsonRpc;
 
 final class MethodNotFound extends JsonRpcException
 {

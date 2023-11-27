@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WoopLeague\Application\Example;
 
-use WoopLeague\Kernel\Command\Command;
-use WoopLeague\Kernel\Command\CommandHandler;
-use WoopLeague\Kernel\Command\CommandResponse;
+use Kernel\Command\Command;
+use Kernel\Command\CommandHandler;
+use Kernel\Command\CommandResponse;
 
 #[Command(name: 'example', dtoClass: ExampleRequest::class)]
 final class ExampleHandler extends CommandHandler

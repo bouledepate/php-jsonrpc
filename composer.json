@@ -14,7 +14,7 @@
   },
   "autoload": {
     "psr-4": {
-      "WoopLeague\\Kernel\\": "src/Kernel",
+      "Kernel\\": "src/Kernel",
       "WoopLeague\\Application\\": "src/Application"
     }
   },

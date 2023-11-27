@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace WoopLeague\Application;
 
-use WoopLeague\Kernel\Config\DependencyProvider;
+use Kernel\Config\DependencyProvider;
 
 use function DI\create;
 

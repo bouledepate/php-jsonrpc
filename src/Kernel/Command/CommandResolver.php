@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Command;
+namespace Kernel\Command;
 
-use WoopLeague\Kernel\Error\JsonRpc\InternalErrorException;
-use WoopLeague\Kernel\Error\JsonRpc\MethodNotFound;
+use Kernel\Error\JsonRpc\InternalErrorException;
+use Kernel\Error\JsonRpc\MethodNotFound;
 
 final class CommandResolver
 {

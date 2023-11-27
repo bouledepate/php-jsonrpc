@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Validation\Rule\Uuid;
+namespace Kernel\Validation\Rule\Uuid;
 
 use Attribute;
 use Yiisoft\Validator\Rule\Trait\SkipOnEmptyTrait;

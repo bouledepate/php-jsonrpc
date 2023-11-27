@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Middlewares\JsonRPC;
+namespace Kernel\Middlewares\JsonRPC;
 
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidRequestException;
-use WoopLeague\Kernel\Error\JsonRpc\ParseErrorException;
-use WoopLeague\Kernel\Validation\Rule\Array\ArrayValue;
-use WoopLeague\Kernel\Validation\Rule\Uuid\Uuid;
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Error\JsonRpc\InvalidRequestException;
+use Kernel\Error\JsonRpc\ParseErrorException;
+use Kernel\Validation\Rule\Array\ArrayValue;
+use Kernel\Validation\Rule\Uuid\Uuid;
 use Yiisoft\Validator\EmptyCondition\WhenNull;
 use Yiisoft\Validator\Rule\Composite;
 use Yiisoft\Validator\Rule\Equal;

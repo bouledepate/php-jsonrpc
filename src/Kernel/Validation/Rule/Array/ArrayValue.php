@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Validation\Rule\Array;
+namespace Kernel\Validation\Rule\Array;
 
 use Attribute;
 use Yiisoft\Validator\Rule\Trait\SkipOnEmptyTrait;

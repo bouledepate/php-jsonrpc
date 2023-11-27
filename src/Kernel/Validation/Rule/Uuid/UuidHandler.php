@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Validation\Rule\Uuid;
+namespace Kernel\Validation\Rule\Uuid;
 
 use Ramsey\Uuid\Uuid as UuidValidator;
 use Yiisoft\Validator\Exception\UnexpectedRuleException;

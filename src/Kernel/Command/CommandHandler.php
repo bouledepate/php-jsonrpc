@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Command;
+namespace Kernel\Command;
 
-use WoopLeague\Kernel\Data\AbstractDTO;
+use Kernel\Data\AbstractDTO;
 
 abstract class CommandHandler
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Entrypoint;
+namespace Kernel\Entrypoint;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -10,12 +10,12 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;
-use WoopLeague\Kernel\Command\CommandDispatcher;
-use WoopLeague\Kernel\Command\CommandRequest;
-use WoopLeague\Kernel\Error\JsonRpc\InternalErrorException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;
-use WoopLeague\Kernel\Error\JsonRpc\MethodNotFound;
-use WoopLeague\Kernel\Validation\ValidationException;
+use Kernel\Command\CommandDispatcher;
+use Kernel\Command\CommandRequest;
+use Kernel\Error\JsonRpc\InternalErrorException;
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Error\JsonRpc\MethodNotFound;
+use Kernel\Validation\ValidationException;
 
 readonly class Entrypoint implements EntrypointController
 {

@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Data;
+namespace Kernel\Data;
 
 use ReflectionClass;
 use ReflectionException;
 use ReflectionNamedType;
 use ReflectionProperty;
-use WoopLeague\Kernel\Error\JsonRpc\InternalErrorException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;
-use WoopLeague\Kernel\Helpers\CaseConverter;
-use WoopLeague\Kernel\Validation\ValidationException;
+use Kernel\Error\JsonRpc\InternalErrorException;
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Helpers\CaseConverter;
+use Kernel\Validation\ValidationException;
 use Yiisoft\Validator\Validator;
 
 final readonly class RequestDtoFactory

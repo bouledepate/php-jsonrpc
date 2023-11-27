@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Validation;
+namespace Kernel\Validation;
 
-use WoopLeague\Kernel\Error\AbstractException;
-use WoopLeague\Kernel\Error\Error;
+use Kernel\Error\AbstractException;
+use Kernel\Error\Error;
 
 final class ValidationException extends AbstractException
 {

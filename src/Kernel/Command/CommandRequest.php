@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Command;
+namespace Kernel\Command;
 
 final readonly class CommandRequest
 {

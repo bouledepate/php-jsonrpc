@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Helpers;
+namespace Kernel\Helpers;
 
 use Dotenv\Dotenv;
-use WoopLeague\Kernel\Config\Environment;
+use Kernel\Config\Environment;
 
 final readonly class EnvironmentHelper
 {
@@ -20,7 +20,7 @@ final readonly class EnvironmentHelper
             ->isBoolean();
 
         # Application settings.
-        $env->required(['ENTRYPOINT']);
-        $env->required(['USE_DEFAULT_ENTRYPOINT'])->isBoolean();
+        $env->required(['ENTRYPOINT', 'COMMANDS_CONFIG', 'DEFINITIONS_CONFIG']);
+        $env->required(['USE_DEFAULT_ENTRYPOINT', 'BATCH_REQUESTS'])->isBoolean();
     }
 }

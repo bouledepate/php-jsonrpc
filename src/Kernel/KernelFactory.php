@@ -12,9 +12,9 @@ use Exception;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\Factory\AppFactory;
-use WoopLeague\Kernel\Config\ApplicationConfig;
-use WoopLeague\Kernel\Definitions\DependencyCollector;
-use WoopLeague\Kernel\Helpers\EnvironmentHelper;
+use Kernel\Config\ApplicationConfig;
+use Kernel\Definitions\DependencyCollector;
+use Kernel\Helpers\EnvironmentHelper;
 
 final readonly class KernelFactory
 {

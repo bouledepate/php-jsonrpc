@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Error\JsonRpc;
+namespace Kernel\Error\JsonRpc;
 
-use WoopLeague\Kernel\Error\AbstractException;
+use Kernel\Error\AbstractException;
 
 abstract class JsonRpcException extends AbstractException
 {

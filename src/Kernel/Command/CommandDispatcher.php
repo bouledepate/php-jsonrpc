@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Command;
+namespace Kernel\Command;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
-use WoopLeague\Kernel\Data\RequestDtoFactory;
-use WoopLeague\Kernel\Error\JsonRpc\InternalErrorException;
-use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;
-use WoopLeague\Kernel\Error\JsonRpc\MethodNotFound;
-use WoopLeague\Kernel\Validation\ValidationException;
+use Kernel\Data\RequestDtoFactory;
+use Kernel\Error\JsonRpc\InternalErrorException;
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Error\JsonRpc\MethodNotFound;
+use Kernel\Validation\ValidationException;
 
 final readonly class CommandDispatcher
 {

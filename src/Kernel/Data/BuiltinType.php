@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Data;
+namespace Kernel\Data;
 
 enum BuiltinType: string
 {

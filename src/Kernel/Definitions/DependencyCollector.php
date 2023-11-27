@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel\Definitions;
+namespace Kernel\Definitions;
 
 use ReflectionClass;
 use ReflectionException;
-use WoopLeague\Kernel\Command\Command;
-use WoopLeague\Kernel\Command\CommandProvider;
-use WoopLeague\Kernel\Config\DependencyProvider;
-use WoopLeague\Kernel\KernelDefinitions;
+use Kernel\Command\Command;
+use Kernel\Command\CommandProvider;
+use Kernel\Config\DependencyProvider;
+use Kernel\KernelDefinitions;
 
 final class DependencyCollector
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace WoopLeague\Application\Example;
 
-use WoopLeague\Kernel\Data\AbstractDTO;
-use WoopLeague\Kernel\Validation\Rule\Array\ArrayValue;
+use Kernel\Data\AbstractDTO;
+use Kernel\Validation\Rule\Array\ArrayValue;
 use Yiisoft\Validator\Rule\BooleanValue;
 use Yiisoft\Validator\Rule\Required;
 

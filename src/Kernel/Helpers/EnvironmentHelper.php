@@ -18,5 +18,9 @@ final readonly class EnvironmentHelper
         $env->required(['ENVIRONMENT'])->allowedValues(Environment::values());
         $env->required(['DISPLAY_ERROR_DETAILS', 'LOG_ERRORS', 'LOG_ERROR_DETAILS'])
             ->isBoolean();
+
+        # Application settings.
+        $env->required(['ENTRYPOINT']);
+        $env->required(['USE_DEFAULT_ENTRYPOINT'])->isBoolean();
     }
 }

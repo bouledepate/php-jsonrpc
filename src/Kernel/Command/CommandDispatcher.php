@@ -9,7 +9,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
-use WoopLeague\Application\Account\Features\CreateAccount\CreateAccountHandler;
 use WoopLeague\Kernel\Data\RequestDtoFactory;
 use WoopLeague\Kernel\Error\JsonRpc\InternalErrorException;
 use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;

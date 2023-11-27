@@ -49,12 +49,6 @@ final class ErrorHandler extends SlimErrorHandler
 
         if ($exception instanceof HttpException) {
             $statusCode = $this->determineErrorCode();
-//            $statusCode = match (true) {
-//                $exception instanceof HttpMethodNotAllowedException => self::HTTP_METHOD_NOT_ALLOWED,
-//                $exception instanceof HttpForbiddenException => self::HTTP_FORBIDDEN,
-//                $exception instanceof HttpUnauthorizedException => self::HTTP_UNAUTHORIZED,
-//                default => self::HTTP_BAD_REQUEST
-//            };
         }
 
         if ($responseData['error']['data'] === null) {
@@ -98,6 +92,10 @@ final class ErrorHandler extends SlimErrorHandler
             }
 
             $fromAttribute = $decodedBody['id'] ?? null;
+        }
+
+        if (is_string($fromAttribute) === false) {
+            $fromAttribute = null;
         }
 
         return $fromAttribute;

@@ -4,23 +4,16 @@ declare(strict_types=1);
 
 namespace WoopLeague\Application;
 
-use WoopLeague\Kernel\Command\CommandProvider;
 use WoopLeague\Kernel\Config\DependencyProvider;
-use WoopLeague\Kernel\Config\EntrypointController;
 
-use function DI\autowire;
+use function DI\create;
 
-final readonly class Definitions implements DependencyProvider, CommandProvider
+final readonly class Definitions implements DependencyProvider
 {
     public function register(): array
     {
         return [
-            EntrypointController::class => autowire(Entrypoint::class)
+            Example\ExampleInterface::class => create(Example\ExampleProcessor::class)
         ];
-    }
-
-    public function commands(): array
-    {
-        return [];
     }
 }

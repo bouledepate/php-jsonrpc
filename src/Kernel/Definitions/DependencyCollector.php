@@ -37,22 +37,6 @@ final class DependencyCollector
         $definitions = [];
         foreach ($this->getProviders() as $provider) {
             $definitions = array_merge($definitions, $provider->register());
-
-            // Need to register commands if exists.
-            if ($provider instanceof CommandProvider) {
-                $commands = $provider->commands();
-
-                // Remove all definitions if it is not the command.
-                array_walk($commands, static function ($value, string $key) use (&$commands) {
-                    $reflectionClass = new ReflectionClass($key);
-                    $attribute = $reflectionClass->getAttributes(Command::class)[0] ?? null;
-                    if ($attribute === null) {
-                        unset($commands[$key]);
-                    }
-                });
-
-                $definitions = array_merge($definitions, $commands);
-            }
         }
         return $definitions;
     }

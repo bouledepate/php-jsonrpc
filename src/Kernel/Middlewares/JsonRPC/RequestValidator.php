@@ -83,7 +83,7 @@ final readonly class RequestValidator
     {
         $rules = ['id' => [new Composite(rules: [
             new Required(),
-//            new Uuid()
+            new Uuid()
         ], skipOnEmpty: new WhenNull())]];
         $result = $this->validator->validate(['id' => $value], $rules);
         return $result->isValid();

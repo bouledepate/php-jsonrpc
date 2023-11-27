@@ -19,13 +19,16 @@ final class CommandResolver
         if (!empty(self::$commands)) {
             return;
         }
-
-        $commandsConfig = dirname(__DIR__, 2) . '/Application/Config/commands.php';
+        $commandsConfig = dirname(__DIR__, 3) . '/config/commands.php';
         if (file_exists($commandsConfig)) {
             $commands = require_once $commandsConfig;
             if ($commands !== 1) {
                 self::$commands = $commands;
+            } else {
+                throw new CommandsFileInvalidFormatException($commandsConfig);
             }
+        } else {
+            throw new CommandsFileNotFoundException($commandsConfig);
         }
     }
 

@@ -8,10 +8,13 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\App;
+use Slim\Factory\ServerRequestCreatorFactory;
+use Slim\Middleware\ErrorMiddleware;
 use WoopLeague\Kernel\Config\ApplicationConfig;
-use WoopLeague\Kernel\Config\EntrypointController;
+use WoopLeague\Kernel\Entrypoint\EntrypointController;
+use WoopLeague\Kernel\Entrypoint\EntrypointNotSetException;
 use WoopLeague\Kernel\Error\ErrorHandler;
-use WoopLeague\Kernel\Error\JsonRpc\ErrorRenderer as JsonRpcErrorRenderer;
+use WoopLeague\Kernel\Error\ShutdownErrorHandler;
 use WoopLeague\Kernel\Middlewares\JsonRPC\ComplianceMiddleware;
 use WoopLeague\Kernel\Middlewares\JsonRPC\ContextMiddleware;
 use WoopLeague\Kernel\Middlewares\JsonRPC\ValidationMiddleware;
@@ -58,11 +61,7 @@ final readonly class Kernel
             logErrors: $this->config->isLogErrors(),
             logErrorDetails: $this->config->isLogErrorDetails()
         );
-
-        $errorMiddleware->setDefaultErrorHandler(new ErrorHandler(
-            $this->application->getCallableResolver(),
-            $this->application->getResponseFactory()
-        ));
+        $this->registerErrorHandlers($errorMiddleware);
     }
 
     /**
@@ -71,9 +70,32 @@ final readonly class Kernel
      */
     private function applyEntrypoint(): void
     {
+        if ($this->container->has(EntrypointController::class) === false) {
+            throw new EntrypointNotSetException();
+        }
+
         $this->application->post(
             pattern: $this->config->getEntrypoint(),
             callable: $this->container->get(EntrypointController::class)
         );
     }
+
+    private function registerErrorHandlers(ErrorMiddleware $errorMiddleware): void
+    {
+        $errorHandler = new ErrorHandler(
+            $this->application->getCallableResolver(),
+            $this->application->getResponseFactory()
+        );
+
+        $requestCreator = ServerRequestCreatorFactory::create();
+        $shutdownHandler = new ShutdownErrorHandler(
+            request: $requestCreator->createServerRequestFromGlobals(),
+            errorHandler: $errorHandler,
+            displayErrorDetails: $this->config->isDisplayErrorDetails()
+        );
+
+        $errorMiddleware->setDefaultErrorHandler($errorHandler);
+        register_shutdown_function($shutdownHandler);
+    }
+
 }

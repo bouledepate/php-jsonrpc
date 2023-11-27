@@ -11,12 +11,12 @@ use WoopLeague\Kernel\Command\CommandDispatcher;
 use WoopLeague\Kernel\Command\CommandResolver;
 use WoopLeague\Kernel\Config\ApplicationConfig;
 use WoopLeague\Kernel\Config\DependencyProvider;
-
+use WoopLeague\Kernel\Entrypoint\Entrypoint;
+use WoopLeague\Kernel\Entrypoint\EntrypointController;
 use Yiisoft\Translator\Translator;
 use Yiisoft\Translator\TranslatorInterface;
 use Yiisoft\Validator\RuleHandlerResolver\RuleHandlerContainer;
 use Yiisoft\Validator\RuleHandlerResolverInterface;
-
 use function DI\autowire;
 use function DI\create;
 use function DI\get;
@@ -25,7 +25,7 @@ final readonly class KernelDefinitions implements DependencyProvider
 {
     public function register(): array
     {
-        return [
+        $definitions = [
             ApplicationConfig::class => autowire()->constructor($_ENV),
             ResponseFactoryInterface::class => create(Psr17Factory::class),
             TranslatorInterface::class => create(Translator::class)->constructor('RU-ru'),
@@ -34,5 +34,11 @@ final readonly class KernelDefinitions implements DependencyProvider
             CommandResolver::class => autowire(),
             CommandDispatcher::class => autowire(),
         ];
+
+        if ($_ENV['USE_DEFAULT_ENTRYPOINT']) {
+            $definitions[EntrypointController::class] = autowire(Entrypoint::class);
+        }
+
+        return $definitions;
     }
 }

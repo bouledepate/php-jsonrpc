@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Application;
+namespace WoopLeague\Kernel\Entrypoint;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -10,18 +10,14 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;
-use Slim\Exception\HttpForbiddenException;
-use Slim\Exception\HttpGoneException;
-use Slim\Exception\HttpUnauthorizedException;
 use WoopLeague\Kernel\Command\CommandDispatcher;
 use WoopLeague\Kernel\Command\CommandRequest;
-use WoopLeague\Kernel\Config\EntrypointController;
 use WoopLeague\Kernel\Error\JsonRpc\InternalErrorException;
 use WoopLeague\Kernel\Error\JsonRpc\InvalidParamsException;
 use WoopLeague\Kernel\Error\JsonRpc\MethodNotFound;
 use WoopLeague\Kernel\Validation\ValidationException;
 
-final readonly class Entrypoint implements EntrypointController
+readonly class Entrypoint implements EntrypointController
 {
     public function __construct(
         private ResponseFactoryInterface $factory,

@@ -17,7 +17,7 @@ abstract class CommandHandler
         $this->DTO = $DTO;
     }
 
-    public function getDTO(): ?AbstractDTO
+    public function getDto(): ?AbstractDTO
     {
         return $this->DTO;
     }

@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace Kernel\Command;
 
-use Throwable;
+use Kernel\Error\AbstractException;
+use Kernel\Error\Error;
 
-final class CommandsFileInvalidFormatException extends \RuntimeException
+final class CommandsFileInvalidFormatException extends AbstractException
 {
-    public function __construct($path, $code = 0, Throwable $previous = null)
+    protected $code = Error::COMMANDS_CONFIG_INVALID_FILE;
+
+    public function __construct(string $path)
     {
-        $message = "Invalid format in configuration file at '{$path}'.";
-        parent::__construct($message, $code, $previous);
+        $message = "Invalid format in configuration file at '$path'.";
+        parent::__construct($this->code, $message);
     }
 }

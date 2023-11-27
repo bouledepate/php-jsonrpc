@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace Kernel\Definitions;
 
-use RuntimeException;
+use Kernel\Error\AbstractException;
+use Kernel\Error\Error;
 use Throwable;
 
-final class DefinitionsFileNotFoundException extends RuntimeException
+final class DefinitionsFileNotFoundException extends AbstractException
 {
-    public function __construct($path, $code = 0, Throwable $previous = null)
+    protected $code = Error::DEFINITIONS_CONFIG_NOT_FOUND;
+
+    public function __construct($path)
     {
         $message = "Configuration file not found at '{$path}'.";
-        parent::__construct($message, $code, $previous);
+        parent::__construct($this->code, $message);
     }
 }

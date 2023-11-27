@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Kernel\Entrypoint;
 
-use RuntimeException;
-use Throwable;
+use Kernel\Error\AbstractException;
+use Kernel\Error\Error;
 
-final class EntrypointNotSetException extends RuntimeException
+final class EntrypointNotSetException extends AbstractException
 {
-    public function __construct($code = 0, Throwable $previous = null)
-    {
-        $message = "Entrypoint controller is not set!";
-        parent::__construct($message, $code, $previous);
-    }
+    protected $code = Error::ENTRYPOINT_NOT_SET;
+    protected $message = "Entrypoint controller is not set!";
+    protected string|array|null $detail = "You need to define custom entrypoint or use builtin.";
 }

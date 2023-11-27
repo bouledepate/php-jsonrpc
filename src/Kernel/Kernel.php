@@ -8,13 +8,10 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\App;
-use Slim\Factory\ServerRequestCreatorFactory;
-use Slim\Middleware\ErrorMiddleware;
 use Kernel\Config\ApplicationConfig;
 use Kernel\Entrypoint\EntrypointController;
 use Kernel\Entrypoint\EntrypointNotSetException;
 use Kernel\Error\ErrorHandler;
-use Kernel\Error\ShutdownErrorHandler;
 use Kernel\Middlewares\JsonRPC\ComplianceMiddleware;
 use Kernel\Middlewares\JsonRPC\ContextMiddleware;
 use Kernel\Middlewares\JsonRPC\ValidationMiddleware;
@@ -61,7 +58,11 @@ final readonly class Kernel
             logErrors: $this->config->isLogErrors(),
             logErrorDetails: $this->config->isLogErrorDetails()
         );
-        $this->registerErrorHandlers($errorMiddleware);
+        $errorHandler = new ErrorHandler(
+            $this->application->getCallableResolver(),
+            $this->application->getResponseFactory()
+        );
+        $errorMiddleware->setDefaultErrorHandler($errorHandler);
     }
 
     /**
@@ -79,23 +80,4 @@ final readonly class Kernel
             callable: $this->container->get(EntrypointController::class)
         );
     }
-
-    private function registerErrorHandlers(ErrorMiddleware $errorMiddleware): void
-    {
-        $errorHandler = new ErrorHandler(
-            $this->application->getCallableResolver(),
-            $this->application->getResponseFactory()
-        );
-
-        $requestCreator = ServerRequestCreatorFactory::create();
-        $shutdownHandler = new ShutdownErrorHandler(
-            request: $requestCreator->createServerRequestFromGlobals(),
-            errorHandler: $errorHandler,
-            displayErrorDetails: $this->config->isDisplayErrorDetails()
-        );
-
-        $errorMiddleware->setDefaultErrorHandler($errorHandler);
-        register_shutdown_function($shutdownHandler);
-    }
-
 }

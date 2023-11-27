@@ -40,9 +40,6 @@ final readonly class RequestDtoFactory
             $propertyName = $property->getName();
             $propertyType = $property->getType();
 
-            // Initialize property by nullable value.
-            $property->setValue($dto, null);
-
             if (!array_key_exists(CaseConverter::toSnakeCase($propertyName), $data)) {
                 continue;
             }

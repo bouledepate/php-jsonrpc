@@ -12,11 +12,11 @@ use Yiisoft\Validator\Rule\Required;
 final class ExampleRequest extends AbstractDTO
 {
     #[Required]
-    private ?string $username;
+    private ?string $username = null;
     #[BooleanValue]
-    private ?bool $password;
+    private ?bool $password = null;
     #[ArrayValue(skipOnEmpty: true)]
-    private ?array $object;
+    private ?array $object = null;
 
     public function getUsername(): ?string
     {

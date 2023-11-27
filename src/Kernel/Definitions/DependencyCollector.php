@@ -6,8 +6,6 @@ namespace Kernel\Definitions;
 
 use ReflectionClass;
 use ReflectionException;
-use Kernel\Command\Command;
-use Kernel\Command\CommandProvider;
 use Kernel\Config\DependencyProvider;
 use Kernel\KernelDefinitions;
 

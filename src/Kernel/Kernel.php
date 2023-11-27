@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Kernel;
+namespace Kernel;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;

@@ -19,7 +19,7 @@ final class CommandResolver
         if (!empty(self::$commands)) {
             return;
         }
-        $commandsConfig = dirname(__DIR__, 3) . '/config/commands.php';
+        $commandsConfig = dirname(__DIR__, 3) . $_ENV['COMMANDS_CONFIG'];
         if (file_exists($commandsConfig)) {
             $commands = require_once $commandsConfig;
             if ($commands !== 1) {

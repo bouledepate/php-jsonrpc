@@ -4,5 +4,19 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Kernel\KernelFactory;
 
-$application = KernelFactory::buildApplication();
-$application->run();;
+try {
+    $application = KernelFactory::buildApplication();
+    $application->run();
+} catch (Throwable $exception) {
+    header('Content-Type: application/json', true, 500);
+    $message = [
+        'jsonrpc' => '2.0',
+        'error' => [
+            'code' => $exception->getCode(),
+            'message' => $exception->getMessage()
+        ],
+        'id' => null
+    ];
+    echo json_encode($message, JSON_UNESCAPED_SLASHES);
+    exit;
+}

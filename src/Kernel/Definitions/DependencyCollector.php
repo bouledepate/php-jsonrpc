@@ -51,7 +51,7 @@ final class DependencyCollector
      */
     private function loadProvidersFromConfiguration(): void
     {
-        $definitionsPath = dirname(__DIR__, 3) . '/config/definitions.php';
+        $definitionsPath = dirname(__DIR__, 3) . $_ENV['DEFINITIONS_CONFIG'];
         if (file_exists($definitionsPath) === false) {
             throw new DefinitionsFileNotFoundException($definitionsPath);
         }

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace Kernel;
 
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Slim\App;
 use Kernel\Config\ApplicationConfig;
 use Kernel\Entrypoint\EntrypointController;
 use Kernel\Entrypoint\EntrypointNotSetException;
 use Kernel\Error\ErrorHandler;
-use Kernel\Middlewares\JsonRPC\ComplianceMiddleware;
-use Kernel\Middlewares\JsonRPC\ContextMiddleware;
-use Kernel\Middlewares\JsonRPC\ValidationMiddleware;
+use Kernel\Middlewares\ComplianceMiddleware;
+use Kernel\Middlewares\ContextMiddleware;
+use Kernel\Middlewares\ValidationMiddleware;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use Slim\App;
 
 final readonly class Kernel
 {
@@ -29,6 +29,7 @@ final readonly class Kernel
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws EntrypointNotSetException
      */
     public function setup(): void
     {
@@ -68,6 +69,7 @@ final readonly class Kernel
     /**
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     * @throws EntrypointNotSetException
      */
     private function applyEntrypoint(): void
     {

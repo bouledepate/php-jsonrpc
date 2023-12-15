@@ -13,6 +13,8 @@ final class CommandResolver
 
     /**
      * @throws InternalErrorException
+     * @throws CommandsFileInvalidFormatException
+     * @throws CommandsFileNotFoundException
      */
     private static function loadCommands(): void
     {
@@ -33,7 +35,10 @@ final class CommandResolver
     }
 
     /**
-     * @throws MethodNotFound|InternalErrorException
+     * @throws CommandsFileInvalidFormatException
+     * @throws CommandsFileNotFoundException
+     * @throws InternalErrorException
+     * @throws MethodNotFound
      */
     public static function resolve(string $command): string
     {

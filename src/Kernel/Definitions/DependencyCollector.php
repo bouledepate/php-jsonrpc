@@ -13,6 +13,8 @@ final class DependencyCollector
 {
     /**
      * @param array|DependencyProvider[] $providers
+     * @throws DefinitionsFileNotFoundException
+     * @throws InvalidDefinitionsFormatException
      * @throws ReflectionException
      */
     public function __construct(private array $providers = [])
@@ -46,6 +48,8 @@ final class DependencyCollector
 
     /**
      * @throws ReflectionException
+     * @throws DefinitionsFileNotFoundException
+     * @throws InvalidDefinitionsFormatException
      */
     private function loadProvidersFromConfiguration(): void
     {

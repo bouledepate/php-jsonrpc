@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares\JsonRPC;
+namespace Kernel\Middlewares;
 
-use Psr\Http\Message\ServerRequestInterface;
-use ReflectionException;
 use Kernel\Error\JsonRpc\InvalidParamsException;
 use Kernel\Error\JsonRpc\InvalidRequestException;
 use Kernel\Error\JsonRpc\ParseErrorException;
 use Kernel\Validation\Rule\Array\ArrayValue;
 use Kernel\Validation\Rule\Uuid\Uuid;
+use Psr\Http\Message\ServerRequestInterface;
+use ReflectionException;
 use Yiisoft\Validator\EmptyCondition\WhenNull;
 use Yiisoft\Validator\Rule\Composite;
 use Yiisoft\Validator\Rule\Equal;

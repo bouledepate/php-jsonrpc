@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares\JsonRPC;
+namespace Kernel\Middlewares;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;

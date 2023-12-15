@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares\JsonRPC;
+namespace Kernel\Middlewares;
 
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Error\JsonRpc\InvalidRequestException;
+use Kernel\Error\JsonRpc\ParseErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionException;
-use Kernel\Error\JsonRpc\InvalidParamsException;
-use Kernel\Error\JsonRpc\InvalidRequestException;
-use Kernel\Error\JsonRpc\ParseErrorException;
 
 final readonly class ValidationMiddleware implements MiddlewareInterface
 {

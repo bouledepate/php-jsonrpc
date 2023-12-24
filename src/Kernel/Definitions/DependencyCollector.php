@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace Kernel\Definitions;
 
+use Kernel\KernelDefinitions;
 use ReflectionClass;
 use ReflectionException;
-use Kernel\Config\DependencyProvider;
-use Kernel\KernelDefinitions;
 
 final class DependencyCollector
 {

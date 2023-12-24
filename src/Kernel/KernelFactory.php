@@ -9,6 +9,7 @@ use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
+use Kernel\Entrypoint\EntrypointNotSetException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Slim\Factory\AppFactory;
@@ -49,6 +50,7 @@ final readonly class KernelFactory
      * @throws NotFoundException
      * @throws ContainerExceptionInterface
      * @throws DependencyException
+     * @throws EntrypointNotSetException
      */
     private static function createKernel(Container $container): Kernel
     {

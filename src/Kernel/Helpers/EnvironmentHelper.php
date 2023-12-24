@@ -20,7 +20,7 @@ final readonly class EnvironmentHelper
             ->isBoolean();
 
         # Application settings.
-        $env->required(['ENTRYPOINT', 'COMMANDS_CONFIG', 'DEFINITIONS_CONFIG']);
+        $env->required(['ENTRYPOINT', 'COMMANDS_CONFIG', 'DEFINITIONS_CONFIG'])->notEmpty();
         $env->required(['USE_DEFAULT_ENTRYPOINT', 'BATCH_REQUESTS'])->isBoolean();
     }
 }

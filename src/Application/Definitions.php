@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace WoopLeague\Application;
 
-use Kernel\Config\DependencyProvider;
-
-use function DI\create;
+use Kernel\Definitions\DependencyProvider;
 
 final readonly class Definitions implements DependencyProvider
 {
     public function register(): array
     {
-        return [
-            Example\ExampleInterface::class => create(Example\ExampleProcessor::class)
-        ];
+        return [];
     }
 }

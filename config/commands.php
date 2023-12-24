@@ -1,18 +1,21 @@
 <?php
 
-use WoopLeague\Application\Example;
+use WoopLeague\Application;
 
 /**
- * This file contains all commands/methods that exist in your application. To register a new method, you need to create
- * a command handler and place its class name into this file.
+ * This file contains the command providers for your application. To register a new command provider,
+ * you need to create a class that implements the CommandProvider interface and list it in this file.
  *
- * For example, if you have created a new method named 'account.createAccount', the next step is to add this method name
- * and its corresponding command handler class to the array like:
+ * A command provider is responsible for providing the details of commands available in the application.
+ * This approach simplifies the management of commands and their handlers. Instead of listing all commands
+ * individually, you only need to specify the command providers here.
+ *
+ * For example, to add a new set of commands, you would include the provider class like this:
  *
  * return [
- *    'account.createAccount' => \Your\Application\Namespace\CommandHandler::class
+ *     \Your\Application\CommandList::class
  * ];
  */
 return [
-    'example' => Example\ExampleHandler::class,
+    Application\Account\AccountCommandList::class,
 ];

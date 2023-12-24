@@ -4,24 +4,25 @@ declare(strict_types=1);
 
 namespace Kernel\Entrypoint;
 
+use Kernel\Command\Contract\CommandRequest;
+use Kernel\Command\Contract\Method;
+use Kernel\Command\Interfaces\CommandDispatcher;
+use Kernel\Error\JsonRpc\InternalErrorException;
+use Kernel\Error\JsonRpc\InvalidParamsException;
+use Kernel\Error\JsonRpc\MethodNotFound;
+use Kernel\Validation\ValidationException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionException;
-use Kernel\Command\CommandDispatcher;
-use Kernel\Command\CommandRequest;
-use Kernel\Error\JsonRpc\InternalErrorException;
-use Kernel\Error\JsonRpc\InvalidParamsException;
-use Kernel\Error\JsonRpc\MethodNotFound;
-use Kernel\Validation\ValidationException;
 
 readonly class Entrypoint implements EntrypointController
 {
     public function __construct(
-        private ResponseFactoryInterface $factory,
-        private CommandDispatcher        $dispatcher
+        private ResponseFactoryInterface   $factory,
+        private CommandDispatcher $dispatcher
     )
     {
     }
@@ -43,7 +44,7 @@ readonly class Entrypoint implements EntrypointController
         $commandResponse = $this->dispatcher->dispatch($commandRequest);
 
         $psrResponse = $this->factory->createResponse();
-        $psrResponse->getBody()->write(json_encode($commandResponse->getData(), JSON_UNESCAPED_SLASHES));
+        $psrResponse->getBody()->write($commandResponse->getSerializedData());
 
         return $psrResponse;
     }
@@ -51,6 +52,6 @@ readonly class Entrypoint implements EntrypointController
     private function collectCommandRequest(ServerRequestInterface $request): CommandRequest
     {
         $requestData = $request->getParsedBody();
-        return new CommandRequest($requestData['method'], $requestData['params'] ?? []);
+        return new CommandRequest(new Method($requestData['method']), $requestData['params'] ?? []);
     }
 }

@@ -6,13 +6,14 @@ namespace Kernel\Command;
 
 use Attribute;
 
-#[Attribute(Attribute::TARGET_CLASS)]
+#[Attribute(flags: Attribute::TARGET_CLASS)]
 final readonly class Command
 {
+    private string $handler;
+
     public function __construct(
         private string  $name,
-        private ?string $dtoClass = null,
-        private bool    $dtoRequired = true
+        private ?string $dto = null,
     )
     {
     }
@@ -22,13 +23,18 @@ final readonly class Command
         return $this->name;
     }
 
-    public function getDtoClass(): ?string
+    public function getDTO(): ?string
     {
-        return $this->dtoClass;
+        return $this->dto;
     }
 
-    public function isDtoRequired(): bool
+    public function getHandler(): string
     {
-        return $this->dtoRequired;
+        return $this->handler;
+    }
+
+    public function setHandler(string $handler): void
+    {
+        $this->handler = $handler;
     }
 }

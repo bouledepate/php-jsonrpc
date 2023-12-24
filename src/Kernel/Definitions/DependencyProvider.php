@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Config;
+namespace Kernel\Definitions;
 
 interface DependencyProvider
 {

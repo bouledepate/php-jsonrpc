@@ -7,9 +7,6 @@ namespace Kernel\Error;
 use Exception;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpException;
-use Slim\Exception\HttpForbiddenException;
-use Slim\Exception\HttpMethodNotAllowedException;
-use Slim\Exception\HttpUnauthorizedException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;
 use Kernel\Error\JsonRpc\InvalidRequestException;
 use Kernel\Error\JsonRpc\MethodNotFound;
@@ -20,12 +17,12 @@ use Kernel\Error\JsonRpc\ParseErrorException;
  */
 final class ErrorHandler extends SlimErrorHandler
 {
-    private const HTTP_NO_CONTENT = 204;
-    private const HTTP_UNAUTHORIZED = 401;
-    private const HTTP_FORBIDDEN = 403;
-    private const HTTP_NOT_FOUND = 404;
-    private const HTTP_METHOD_NOT_ALLOWED = 405;
-    private const HTTP_BAD_REQUEST = 400;
+    private const int HTTP_NO_CONTENT = 204;
+    private const int HTTP_UNAUTHORIZED = 401;
+    private const int HTTP_FORBIDDEN = 403;
+    private const int HTTP_NOT_FOUND = 404;
+    private const int HTTP_METHOD_NOT_ALLOWED = 405;
+    private const int HTTP_BAD_REQUEST = 400;
 
     protected function respond(): Response
     {

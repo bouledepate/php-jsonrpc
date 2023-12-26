@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Kernel\Command\Exception;
 
-use Kernel\Error\AbstractException;
-use Kernel\Error\Error;
+use Kernel\Exception\AbstractException;
+use Kernel\Exception\ExceptionCode;
 
 final class ConfigurationNotFoundException extends AbstractException
 {
     protected $message = "Configuration file not found.";
-    protected $code = Error::COMMANDS_CONFIG_NOT_FOUND;
+    protected $code = ExceptionCode::COMMANDS_CONFIG_NOT_FOUND;
 
     public function __construct(string $path)
     {

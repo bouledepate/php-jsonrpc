@@ -7,10 +7,9 @@ namespace Kernel\Entrypoint;
 use Kernel\Command\Contract\CommandRequest;
 use Kernel\Command\Contract\Method;
 use Kernel\Command\Interfaces\CommandDispatcher;
-use Kernel\Error\JsonRpc\InternalErrorException;
-use Kernel\Error\JsonRpc\InvalidParamsException;
-use Kernel\Error\JsonRpc\MethodNotFound;
-use Kernel\Validation\ValidationException;
+use Kernel\Exception\JRPC\InternalErrorException;
+use Kernel\Exception\JRPC\InvalidParamsException;
+use Kernel\Exception\JRPC\MethodNotFound;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -30,13 +29,6 @@ readonly class Entrypoint implements EntrypointController
     /**
      * @param ServerRequestInterface $request
      * @return ResponseInterface
-     * @throws ContainerExceptionInterface
-     * @throws InternalErrorException
-     * @throws MethodNotFound
-     * @throws NotFoundExceptionInterface
-     * @throws ValidationException
-     * @throws ReflectionException
-     * @throws InvalidParamsException
      */
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {

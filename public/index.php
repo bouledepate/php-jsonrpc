@@ -2,7 +2,7 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Kernel\Error\ShutdownHandler;
+use Kernel\Exception\ShutdownHandler;
 use Kernel\KernelFactory;
 
 try {

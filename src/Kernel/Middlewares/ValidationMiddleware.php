@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Kernel\Middlewares;
 
-use Kernel\Error\JsonRpc\InvalidParamsException;
-use Kernel\Error\JsonRpc\InvalidRequestException;
-use Kernel\Error\JsonRpc\ParseErrorException;
+use Kernel\Exception\JRPC\InvalidParamsException;
+use Kernel\Exception\JRPC\InvalidRequestException;
+use Kernel\Exception\JRPC\ParseErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

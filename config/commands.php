@@ -17,5 +17,5 @@ use WoopLeague\Application;
  * ];
  */
 return [
-    Application\Account\AccountCommandList::class,
+    Application\Development\DevelopmentCommandList::class,
 ];

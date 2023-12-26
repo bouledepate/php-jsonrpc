@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Kernel\Definitions;
 
-use Kernel\Error\AbstractException;
-use Kernel\Error\Error;
+use Kernel\Exception\AbstractException;
+use Kernel\Exception\ExceptionCode;
 
 final class InvalidDefinitionsFormatException extends AbstractException
 {
-    protected $code = Error::DEFINITIONS_CONFIG_INVALID_FILE;
+    protected $code = ExceptionCode::DEFINITIONS_CONFIG_INVALID_FILE;
 
     public function __construct(string $path)
     {

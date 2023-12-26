@@ -13,7 +13,7 @@ use Throwable;
 
 final readonly class ComplianceMiddleware implements MiddlewareInterface
 {
-    private const HTTP_NO_CONTENT = 204;
+    private const int HTTP_NO_CONTENT = 204;
 
     public function __construct(private ResponseFactoryInterface $responseFactory)
     {

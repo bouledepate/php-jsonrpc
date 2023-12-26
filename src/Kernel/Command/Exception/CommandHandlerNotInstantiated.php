@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Kernel\Command\Exception;
 
-use Kernel\Error\AbstractException;
-use Kernel\Error\Error;
+use Kernel\Exception\AbstractException;
+use Kernel\Exception\ExceptionCode;
 
 final class CommandHandlerNotInstantiated extends AbstractException
 {
     protected $message = "Command handler is not defined.";
-    protected $code = Error::HANDLER_NOT_INSTANTIATED;
+    protected $code = ExceptionCode::HANDLER_NOT_INSTANTIATED;
 
     public function __construct(string $handler)
     {

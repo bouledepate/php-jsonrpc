@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Kernel;
 
-use Kernel\Config\ApplicationConfig;
+use Kernel\Configuration\ApplicationConfig;
+use Kernel\Configuration\JsonRpcConfig;
 use Kernel\Entrypoint\EntrypointController;
 use Kernel\Entrypoint\EntrypointNotSetException;
-use Kernel\Error\ErrorHandler;
+use Kernel\Exception\ExceptionHandler;
 use Kernel\Middlewares\ComplianceMiddleware;
 use Kernel\Middlewares\ContextMiddleware;
 use Kernel\Middlewares\ValidationMiddleware;
@@ -21,6 +22,7 @@ final readonly class Kernel
     public function __construct(
         private App                $application,
         private ApplicationConfig  $config,
+        private JsonRpcConfig      $jrpcConfig,
         private ContainerInterface $container
     )
     {
@@ -31,10 +33,12 @@ final readonly class Kernel
      * @throws NotFoundExceptionInterface
      * @throws EntrypointNotSetException
      */
-    public function setup(): void
+    public function setup(): Kernel
     {
         $this->connectMiddlewares();
         $this->applyEntrypoint();
+
+        return $this;
     }
 
     public function run(): void
@@ -48,6 +52,7 @@ final readonly class Kernel
      */
     private function connectMiddlewares(): void
     {
+        // JsonRPC validation middlewares.
         $this->application->add($this->container->get(ComplianceMiddleware::class));
         $this->application->add($this->container->get(ValidationMiddleware::class));
         $this->application->add($this->container->get(ContextMiddleware::class));
@@ -59,7 +64,7 @@ final readonly class Kernel
             logErrors: $this->config->isLogErrors(),
             logErrorDetails: $this->config->isLogErrorDetails()
         );
-        $errorHandler = new ErrorHandler(
+        $errorHandler = new ExceptionHandler(
             $this->application->getCallableResolver(),
             $this->application->getResponseFactory()
         );
@@ -73,12 +78,12 @@ final readonly class Kernel
      */
     private function applyEntrypoint(): void
     {
-        if ($this->container->has(EntrypointController::class) === false) {
+        if (false === $this->container->has(EntrypointController::class)) {
             throw new EntrypointNotSetException();
         }
 
         $this->application->post(
-            pattern: $this->config->getEntrypoint(),
+            pattern: $this->jrpcConfig->getEntrypoint(),
             callable: $this->container->get(EntrypointController::class)
         );
     }

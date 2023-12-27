@@ -4,19 +4,17 @@ declare(strict_types=1);
 
 namespace WoopLeague\Application\Development\Features\Environment;
 
-use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class AdditionalDTO
+final readonly class DeveloperDTO
 {
     public function __construct(
         #[Assert\NotBlank]
         #[Assert\Type('string')]
-        #[Assert\Length(min: 3, max: 36)]
-        private array $username,
-        #[Assert\Type('boolean')]
-        #[SerializedName('is_developer')]
-        private bool   $isDeveloper,
+        #[Assert\Length(min: 3, max: 48)]
+        private string  $username,
+        #[Assert\Email]
+        private ?string $email
     )
     {
     }
@@ -26,8 +24,8 @@ final class AdditionalDTO
         return $this->username;
     }
 
-    public function isDeveloper(): bool
+    public function getEmail(): ?string
     {
-        return $this->isDeveloper;
+        return $this->email;
     }
 }

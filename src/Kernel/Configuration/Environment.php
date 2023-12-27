@@ -24,4 +24,12 @@ enum Environment: string
     {
         return self::from($env);
     }
+
+    public function equals(string|Environment $environment): bool
+    {
+        if (true === is_string($environment)) {
+            $environment = Environment::tryFrom($environment);
+        }
+        return $environment->value === $this->value;
+    }
 }

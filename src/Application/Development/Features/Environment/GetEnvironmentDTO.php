@@ -5,27 +5,30 @@ declare(strict_types=1);
 namespace WoopLeague\Application\Development\Features\Environment;
 
 use Kernel\Command\Interfaces\CommandDTO;
+use Kernel\Configuration\Environment;
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class GetEnvironmentDTO implements CommandDTO
+final readonly class GetEnvironmentDTO implements CommandDTO
 {
     public function __construct(
         #[Assert\NotBlank]
-        #[Assert\Email]
-        public string        $email,
+        #[Assert\Type('string')]
+        #[Assert\Choice(callback: [Environment::class, 'values'])]
+        private ?string       $environment,
+
+        #[Assert\NotBlank]
         #[Assert\Valid]
-        public AdditionalDTO $subject,
-    )
+        private ?DeveloperDTO $developer)
     {
     }
 
-    public function getEmail(): string
+    public function getDeveloper(): DeveloperDTO
     {
-        return $this->email;
+        return $this->developer;
     }
 
-    public function getSubject(): AdditionalDTO
+    public function getEnvironment(): string
     {
-        return $this->subject;
+        return $this->environment;
     }
 }

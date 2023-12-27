@@ -8,6 +8,7 @@ use Kernel\Command\BaseCommand;
 use Kernel\Command\Command;
 use Kernel\Configuration\ApplicationConfig;
 use Kernel\Configuration\Environment;
+use Symfony\Component\String\UnicodeString;
 
 /**
  * @property GetEnvironmentDTO $payload
@@ -23,20 +24,30 @@ final class GetEnvironment extends BaseCommand
     public function execute(): void
     {
         $environment = $this->config->getEnvironment();
-        $message = $this->getMessageBy($environment);
+        $message = $this->handleEnvironment($environment);
 
         $this->setResult(new GetEnvironmentResponse(
             $message
         ));
     }
 
-    private function getMessageBy(Environment $environment): string
+    private function handleEnvironment(Environment $environment): string
     {
-        if ($this->payload->isDeveloper()) {
-            $message = "Current environment is $environment->value";
-        } else {
-            $message = "Sorry, you are not a developer.";
+        $message = new UnicodeString("handled request from {$this->payload->getDeveloper()->getUsername()}. ");
+
+        $requestEnvironment = $this->payload->getEnvironment();
+        $message = $message->append(
+            $environment->equals($requestEnvironment) ? 'yes, current env is ' :  'no, current env is not ',
+            $requestEnvironment,
+        )->ensureEnd('. ');
+
+        if ($this->payload->getDeveloper()->getEmail() !== null) {
+            $message = $message->append(
+                "we'll send results to your email: ",
+                $this->payload->getDeveloper()->getEmail()
+            );
         }
-        return $message;
+
+        return $message->trim()->toString();
     }
 }

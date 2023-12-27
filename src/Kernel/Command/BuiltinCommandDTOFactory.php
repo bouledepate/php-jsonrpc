@@ -7,6 +7,7 @@ namespace Kernel\Command;
 use Kernel\Command\Exception\ValidationFailedException;
 use Kernel\Command\Interfaces\CommandDTO;
 use Kernel\Command\Interfaces\CommandDTOFactory;
+use Kernel\Exception\JRPC\InvalidParamsException;
 use Symfony\Component\Serializer\Exception\NotNormalizableValueException;
 use Symfony\Component\Serializer\Exception\PartialDenormalizationException;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -23,15 +24,10 @@ final readonly class BuiltinCommandDTOFactory implements CommandDTOFactory
     }
 
     /**
-     * @throws ValidationFailedException
+     * @throws InvalidParamsException|ValidationFailedException
      */
-    public function collectDTO(string $dtoClass, array|string $params): CommandDTO
+    public function collectDTO(string $dtoClass, string $params): CommandDTO
     {
-        // Input params must be json encoded.
-        if (false === is_string($params)) {
-            $params = $this->serializer->serialize($params, 'json');
-        }
-
         try {
             $DTO = $this->serializer->deserialize($params, $dtoClass, 'json', $this->deserializationOptions());
             $this->validateDTO($DTO);
@@ -39,14 +35,34 @@ final readonly class BuiltinCommandDTOFactory implements CommandDTOFactory
             $errors = [];
             /** @var NotNormalizableValueException $exception */
             foreach ($e->getErrors() as $exception) {
-                $message = $this->formatTypeErrorMessage($exception);
-                $attribute = $exception->getPath() ?? 'unknown';
-                $errors[$attribute][] = $message;
+                $path = $exception->getPath() ?? 'unknown';
+                $message = $exception->getMessage();
+                if (false === in_array('unknown', $exception->getExpectedTypes())) {
+                    $message = $this->formatTypeErrorMessage($exception);
+                }
+                $errors[$path] = $message;
             }
-            throw new ValidationFailedException($errors);
+            throw new InvalidParamsException($errors);
         }
 
         return $DTO;
+    }
+
+    /**
+     * @throws ValidationFailedException
+     */
+    private function validateDTO(CommandDTO $DTO): void
+    {
+        $errors = [];
+        $violations = $this->validator->validate($DTO);
+
+        foreach ($violations as $violation) {
+            $errors[$violation->getPropertyPath()][] = $violation->getMessage();
+        }
+
+        if (false === empty($errors)) {
+            throw new ValidationFailedException($errors);
+        }
     }
 
     private function deserializationOptions(): array
@@ -66,22 +82,5 @@ final readonly class BuiltinCommandDTOFactory implements CommandDTOFactory
             implode(', ', $exception->getExpectedTypes()),
             $exception->getCurrentType()
         );
-    }
-
-    /**
-     * @throws ValidationFailedException
-     */
-    private function validateDTO(CommandDTO $DTO): void
-    {
-        $errors = [];
-        $violations = $this->validator->validate($DTO);
-
-        foreach ($violations as $violation) {
-            $errors[$violation->getPropertyPath()][] = $violation->getMessage();
-        }
-
-        if (false === empty($errors)) {
-            throw new ValidationFailedException($errors);
-        }
     }
 }

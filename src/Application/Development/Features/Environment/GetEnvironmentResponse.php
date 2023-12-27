@@ -9,7 +9,6 @@ use Symfony\Component\Serializer\Attribute\SerializedName;
 
 final readonly class GetEnvironmentResponse
 {
-    #[SerializedName('secret_key')]
     private string $token;
 
     public function __construct(private string $message)

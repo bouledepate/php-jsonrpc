@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Exception;
+namespace JRPC\Kernel\Exception;
 
 enum ExceptionCode: int
 {
@@ -22,5 +22,7 @@ enum ExceptionCode: int
     case HANDLER_NOT_INSTANTIATED = -27005;
     case DEFINITIONS_CONFIG_NOT_FOUND = -27006;
     case DEFINITIONS_CONFIG_INVALID_FILE = -27007;
+    case MIDDLEWARES_CONFIG_NOT_FOUND = -27008;
+    case MIDDLEWARES_CONFIG_INVALID_FILE = -27009;
     case VALIDATION_FAILED = -27100;
 }

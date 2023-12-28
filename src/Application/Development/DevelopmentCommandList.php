@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Application\Development;
+namespace Application\Development;
 
-use Kernel\Command\Interfaces\CommandProvider;
-use WoopLeague\Application\Development\Features\Environment\GetEnvironment;
+use JRPC\Kernel\Command\Interfaces\CommandProvider;
+use Application\Development\Features\Environment\GetEnvironment;
 
 final readonly class DevelopmentCommandList implements CommandProvider
 {

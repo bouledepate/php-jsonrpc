@@ -2,18 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares;
+namespace JRPC\Kernel\Middlewares;
 
-use Kernel\Exception\JRPC\InvalidParamsException;
-use Kernel\Exception\JRPC\InvalidRequestException;
-use Kernel\Exception\JRPC\ParseErrorException;
+use JRPC\Kernel\Configuration\JsonRpcConfig;
+use JRPC\Kernel\Exception\JRPC\InvalidParamsException;
+use JRPC\Kernel\Exception\JRPC\InvalidRequestException;
+use JRPC\Kernel\Exception\JRPC\ParseErrorException;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final readonly class RequestValidator
 {
-    public function __construct(private ValidatorInterface $validator)
+    public function __construct(
+        private ValidatorInterface $validator,
+        private JsonRpcConfig      $config
+    )
     {
     }
 
@@ -73,13 +78,21 @@ final readonly class RequestValidator
      */
     private function validateId($value): void
     {
-        $violations = $this->validator->validate($value, [
-            new Assert\NotNull(),
-            new Assert\Uuid()
-        ]);
+        $message = new UnicodeString("The 'id' field is invalid.");
+        $constraints = [
+            new Assert\NotBlank(),
+            new Assert\Type('string')
+        ];
+
+        if ($this->config->isUuidRequired()) {
+            $constraints[] = new Assert\Uuid();
+            $message = $message->append(' ', "It must be a UUID version 4 string.");
+        }
+
+        $violations = $this->validator->validate($value, $constraints);
 
         if (count($violations) > 0) {
-            throw new InvalidRequestException("The 'id' field is invalid. It must be a UUID version 4 string.");
+            throw new InvalidRequestException($message->toString());
         }
     }
 

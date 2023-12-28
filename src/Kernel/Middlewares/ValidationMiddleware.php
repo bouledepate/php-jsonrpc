@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares;
+namespace JRPC\Kernel\Middlewares;
 
-use Kernel\Exception\JRPC\InvalidParamsException;
-use Kernel\Exception\JRPC\InvalidRequestException;
-use Kernel\Exception\JRPC\ParseErrorException;
+use JRPC\Kernel\Exception\JRPC\InvalidParamsException;
+use JRPC\Kernel\Exception\JRPC\InvalidRequestException;
+use JRPC\Kernel\Exception\JRPC\ParseErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;

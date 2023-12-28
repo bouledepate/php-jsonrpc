@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Application\Development\Features\Environment;
+namespace Application\Development\Features\Environment;
 
-use Kernel\Command\Interfaces\CommandDTO;
-use Kernel\Configuration\Environment;
+use JRPC\Kernel\Command\Data\CommandDTO;
+use JRPC\Kernel\Configuration\Environment;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final readonly class GetEnvironmentDTO implements CommandDTO

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command\Contract;
+namespace JRPC\Kernel\Command\Contract;
 
 final readonly class CommandResponse
 {

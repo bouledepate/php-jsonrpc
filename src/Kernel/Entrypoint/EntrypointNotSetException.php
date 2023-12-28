@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Entrypoint;
+namespace JRPC\Kernel\Entrypoint;
 
-use Kernel\Exception\AbstractException;
-use Kernel\Exception\ExceptionCode;
+use JRPC\Kernel\Exception\AbstractException;
+use JRPC\Kernel\Exception\ExceptionCode;
 
 final class EntrypointNotSetException extends AbstractException
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Application\Development\Features\Environment;
+namespace Application\Development\Features\Environment;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

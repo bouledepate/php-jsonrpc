@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command\Exception;
+namespace JRPC\Kernel\Command\Exception;
 
-use Kernel\Exception\AbstractException;
-use Kernel\Exception\ExceptionCode;
+use JRPC\Kernel\Exception\AbstractException;
+use JRPC\Kernel\Exception\ExceptionCode;
 use Throwable;
 
 final class MissingCommandAttribute extends AbstractException

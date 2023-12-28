@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace WoopLeague\Application\Development\Features\Environment;
+namespace Application\Development\Features\Environment;
 
-use Kernel\Command\BaseCommand;
-use Kernel\Command\Command;
-use Kernel\Configuration\ApplicationConfig;
-use Kernel\Configuration\Environment;
+use JRPC\Kernel\Command\BaseCommand;
+use JRPC\Kernel\Command\Command;
+use JRPC\Kernel\Configuration\ApplicationConfig;
+use JRPC\Kernel\Configuration\Environment;
 use Symfony\Component\String\UnicodeString;
 
 /**

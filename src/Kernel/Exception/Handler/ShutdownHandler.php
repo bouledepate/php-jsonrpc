@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Exception;
+namespace JRPC\Kernel\Exception\Handler;
 
+use JRPC\Kernel\Exception\AbstractException;
+use JRPC\Kernel\Exception\HttpStatus;
 use Throwable;
 
 final readonly class ShutdownHandler

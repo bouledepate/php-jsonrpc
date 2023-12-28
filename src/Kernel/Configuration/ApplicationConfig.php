@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Configuration;
+namespace JRPC\Kernel\Configuration;
 
 final readonly class ApplicationConfig implements Config
 {
     public function __construct(
-        private string $env,
-        private bool   $errorDetails,
-        private bool   $logErrors,
-        private bool   $logErrorDetails,
-        private string $commandsDir,
-        private string $definitionsDir,
+        private string  $env,
+        private bool    $errorDetails,
+        private bool    $logErrors,
+        private bool    $logErrorDetails,
+        private string  $commandsDir,
+        private string  $definitionsDir,
+        private ?string $middlewaresDir
     )
     {
     }
@@ -69,5 +70,10 @@ final readonly class ApplicationConfig implements Config
     public function getCommandsDirectory(): string
     {
         return $this->commandsDir;
+    }
+
+    public function getMiddlewaresDirectory(): ?string
+    {
+        return $this->middlewaresDir;
     }
 }

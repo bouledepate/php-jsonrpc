@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Exception\JRPC;
+namespace JRPC\Kernel\Exception\JRPC;
 
-use Kernel\Exception\ExceptionCode;
+use JRPC\Kernel\Exception\ExceptionCode;
 
 final class MethodNotFound extends JsonRpcException
 {

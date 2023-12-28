@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Exception;
+namespace JRPC\Kernel\Exception;
 
 use Exception;
 use Throwable;

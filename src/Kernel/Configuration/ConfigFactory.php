@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Configuration;
+namespace JRPC\Kernel\Configuration;
 
-use Kernel\Environment\Variables;
+use JRPC\Kernel\Environment\Variables;
 
 final readonly class ConfigFactory
 {
-    public function __construct(private array $env = [])
+    public function __construct(private array $env)
     {
     }
 
@@ -20,14 +20,6 @@ final readonly class ConfigFactory
         };
     }
 
-    private function getEnvironmentValue(Variables $name): ?string
-    {
-        if (array_key_exists($name->name, $this->env) === false) {
-            return null;
-        }
-        return $this->env[$name->name];
-    }
-
     private function collectApplicationConfig(): ApplicationConfig
     {
         return new ApplicationConfig(
@@ -36,16 +28,28 @@ final readonly class ConfigFactory
             logErrors: (bool)$this->getEnvironmentValue(Variables::LOG_ERRORS),
             logErrorDetails: (bool)$this->getEnvironmentValue(Variables::LOG_ERROR_DETAILS),
             commandsDir: $this->getEnvironmentValue(Variables::COMMANDS_CONFIG),
-            definitionsDir: $this->getEnvironmentValue(Variables::DEFINITIONS_CONFIG)
+            definitionsDir: $this->getEnvironmentValue(Variables::DEFINITIONS_CONFIG),
+            middlewaresDir: $this->getEnvironmentValue(Variables::MIDDLEWARES_CONFIG)
         );
     }
 
     private function collectJsonRpcConfig(): JsonRpcConfig
     {
         return new JsonRpcConfig(
-            entrypoint: $this->getEnvironmentValue(Variables::ENTRYPOINT),
-            defaultEntrypoint: (bool)$this->getEnvironmentValue(Variables::USE_DEFAULT_ENTRYPOINT),
-            batchRequests: (bool)$this->getEnvironmentValue(Variables::BATCH_REQUESTS)
+            entrypoint: $this->getEnvironmentValue(Variables::JRPC_ENTRYPOINT),
+            defaultEntrypoint: (bool)$this->getEnvironmentValue(Variables::JRPC_USE_DEFAULT_ENTRYPOINT),
+            batchRequests: (bool)$this->getEnvironmentValue(Variables::JRPC_BATCH_REQUESTS),
+            uuidRequired: (bool)$this->getEnvironmentValue(Variables::JRPC_UUID_REQUIRED)
         );
+    }
+
+    private function getEnvironmentValue(Variables $name): ?string
+    {
+        if (false === array_key_exists($name->name, $this->env)) {
+            throw new \UnexpectedValueException("Invalid environment variable with name $name->name.");
+        }
+
+        $value = $this->env[$name->name];
+        return empty($value) ? null : $value;
     }
 }

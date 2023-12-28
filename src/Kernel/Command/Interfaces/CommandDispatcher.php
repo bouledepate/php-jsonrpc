@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command\Interfaces;
+namespace JRPC\Kernel\Command\Interfaces;
 
-use Kernel\Command\Contract\CommandRequest;
-use Kernel\Command\Contract\CommandResponse;
+use JRPC\Kernel\Command\Contract\CommandRequest;
+use JRPC\Kernel\Command\Contract\CommandResponse;
 
 interface CommandDispatcher
 {

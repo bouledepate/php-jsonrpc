@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command;
+namespace JRPC\Kernel\Command;
 
 use Attribute;
 

@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Exception;
+namespace JRPC\Kernel\Exception\Handler;
 
 use Exception;
-use Kernel\Exception\JRPC\InvalidRequestException;
-use Kernel\Exception\JRPC\MethodNotFound;
-use Kernel\Exception\JRPC\ParseErrorException;
+use JRPC\Kernel\Exception\AbstractException;
+use JRPC\Kernel\Exception\HttpStatus;
+use JRPC\Kernel\Exception\JRPC\InvalidRequestException;
+use JRPC\Kernel\Exception\JRPC\MethodNotFound;
+use JRPC\Kernel\Exception\JRPC\ParseErrorException;
 use Psr\Http\Message\ResponseInterface as Response;
 use Slim\Exception\HttpException;
 use Slim\Handlers\ErrorHandler as SlimErrorHandler;

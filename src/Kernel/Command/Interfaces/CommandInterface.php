@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command\Interfaces;
+namespace JRPC\Kernel\Command\Interfaces;
+
+use JRPC\Kernel\Command\Data\CommandDTO;
 
 interface CommandInterface
 {

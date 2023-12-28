@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Environment;
+namespace JRPC\Kernel\Environment;
 
 enum Variables
 {
@@ -10,9 +10,11 @@ enum Variables
     case DISPLAY_ERROR_DETAILS;
     case LOG_ERRORS;
     case LOG_ERROR_DETAILS;
-    case ENTRYPOINT;
-    case USE_DEFAULT_ENTRYPOINT;
-    case BATCH_REQUESTS;
     case COMMANDS_CONFIG;
     case DEFINITIONS_CONFIG;
+    case MIDDLEWARES_CONFIG;
+    case JRPC_ENTRYPOINT;
+    case JRPC_USE_DEFAULT_ENTRYPOINT;
+    case JRPC_BATCH_REQUESTS;
+    case JRPC_UUID_REQUIRED;
 }

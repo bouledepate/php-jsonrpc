@@ -2,28 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command;
+namespace JRPC\Kernel\Command\Builtin;
 
-use Kernel\Command\Contract\CommandRequest;
-use Kernel\Command\Contract\CommandResponse;
-use Kernel\Command\Exception\CommandHandlerNotInstantiated;
-use Kernel\Command\Interfaces\CommandDispatcher;
-use Kernel\Command\Interfaces\CommandDTOFactory;
-use Kernel\Command\Interfaces\CommandRegistry;
-use Kernel\Exception\JRPC\MethodNotFound;
+use JRPC\Kernel\Command\Contract\CommandRequest;
+use JRPC\Kernel\Command\Contract\CommandResponse;
+use JRPC\Kernel\Command\Data\DtoCollectorInterface;
+use JRPC\Kernel\Command\Exception\CommandHandlerNotInstantiated;
+use JRPC\Kernel\Command\Interfaces\CommandDispatcher;
+use JRPC\Kernel\Command\Interfaces\CommandRegistry;
+use JRPC\Kernel\Exception\JRPC\MethodNotFound;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-final readonly class BuiltinCommandDispatcher implements CommandDispatcher
+final readonly class DefaultCommandDispatcher implements CommandDispatcher
 {
     public function __construct(
-        private CommandRegistry     $commandRegistry,
-        private CommandDTOFactory   $dtoFactory,
-        private SerializerInterface $serializer,
-        private ContainerInterface  $container
+        private CommandRegistry       $commandRegistry,
+        private DtoCollectorInterface $dtoFactory,
+        private SerializerInterface   $serializer,
+        private ContainerInterface    $container
     )
     {
     }
@@ -45,7 +44,6 @@ final readonly class BuiltinCommandDispatcher implements CommandDispatcher
             throw new CommandHandlerNotInstantiated($commandHandler);
         }
 
-        /** @var */
         $commandHandler = $this->container->get($commandHandler);
         $parameters = $commandRequest->getParameters();
 

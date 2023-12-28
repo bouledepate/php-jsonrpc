@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command\Contract;
+namespace JRPC\Kernel\Command\Contract;
 
 final readonly class CommandRequest
 {
     public function __construct(
-        private Method $method,
+        private string $method,
         private array  $parameters = []
     )
     {
     }
 
-    public function getMethod(): Method
+    public function getMethod(): string
     {
         return $this->method;
     }

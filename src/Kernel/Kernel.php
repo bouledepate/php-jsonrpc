@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Kernel;
+namespace JRPC\Kernel;
 
-use Kernel\Configuration\ApplicationConfig;
-use Kernel\Configuration\JsonRpcConfig;
-use Kernel\Entrypoint\EntrypointController;
-use Kernel\Entrypoint\EntrypointNotSetException;
-use Kernel\Exception\ExceptionHandler;
-use Kernel\Middlewares\ComplianceMiddleware;
-use Kernel\Middlewares\ContextMiddleware;
-use Kernel\Middlewares\ValidationMiddleware;
+use JRPC\Kernel\Entrypoint\EntrypointController;
+use JRPC\Kernel\Entrypoint\EntrypointNotSetException;
+use JRPC\Kernel\Exception\Handler\ExceptionHandler;
+use JRPC\Kernel\Middlewares\ComplianceMiddleware;
+use JRPC\Kernel\Middlewares\ContextMiddleware;
+use JRPC\Kernel\Middlewares\ValidationMiddleware;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -21,9 +19,9 @@ final readonly class Kernel
 {
     public function __construct(
         private App                $application,
-        private ApplicationConfig  $config,
-        private JsonRpcConfig      $jrpcConfig,
-        private ContainerInterface $container
+        private KernelConfig       $config,
+        private ContainerInterface $container,
+        private ?array             $middlewares = []
     )
     {
     }
@@ -59,16 +57,25 @@ final readonly class Kernel
 
         $this->application->addBodyParsingMiddleware();
 
+        $configuration = $this->config->getMainConfig();
+
         $errorMiddleware = $this->application->addErrorMiddleware(
-            displayErrorDetails: $this->config->isDisplayErrorDetails(),
-            logErrors: $this->config->isLogErrors(),
-            logErrorDetails: $this->config->isLogErrorDetails()
+            displayErrorDetails: $configuration->isDisplayErrorDetails(),
+            logErrors: $configuration->isLogErrors(),
+            logErrorDetails: $configuration->isLogErrorDetails()
         );
+
         $errorHandler = new ExceptionHandler(
             $this->application->getCallableResolver(),
             $this->application->getResponseFactory()
         );
+
         $errorMiddleware->setDefaultErrorHandler($errorHandler);
+
+        // Custom middlewares.
+        foreach ($this->middlewares as $middleware) {
+            $this->application->add($middleware);
+        }
     }
 
     /**
@@ -81,9 +88,8 @@ final readonly class Kernel
         if (false === $this->container->has(EntrypointController::class)) {
             throw new EntrypointNotSetException();
         }
-
         $this->application->post(
-            pattern: $this->jrpcConfig->getEntrypoint(),
+            pattern: $this->config->getJrpcConfig()->getEntrypoint(),
             callable: $this->container->get(EntrypointController::class)
         );
     }

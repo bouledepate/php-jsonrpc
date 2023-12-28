@@ -2,22 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command;
+namespace JRPC\Kernel\Command\Builtin;
 
-use Kernel\Command\Contract\Method;
-use Kernel\Command\Exception\ConfigurationNotFoundException;
-use Kernel\Command\Exception\MissingCommandAttribute;
-use Kernel\Command\Exception\InvalidConfigurationFileException;
-use Kernel\Command\Command;
-use Kernel\Command\Interfaces\Command as CommandInterface;
-use Kernel\Command\Interfaces\CommandProvider;
-use Kernel\Command\Interfaces\CommandRegistry;
-use Kernel\Configuration\ApplicationConfig;
-use Kernel\Exception\JRPC\MethodNotFound;
+use JRPC\Kernel\Command\BaseCommand;
+use JRPC\Kernel\Command\Command;
+use JRPC\Kernel\Command\Exception\ConfigurationNotFoundException;
+use JRPC\Kernel\Command\Exception\InvalidConfigurationFileException;
+use JRPC\Kernel\Command\Exception\MissingCommandAttribute;
+use JRPC\Kernel\Command\Interfaces\CommandProvider;
+use JRPC\Kernel\Command\Interfaces\CommandRegistry;
+use JRPC\Kernel\Configuration\ApplicationConfig;
+use JRPC\Kernel\Exception\JRPC\MethodNotFound;
 use ReflectionClass;
 use ReflectionException;
 
-class BuiltinCommandRegistry implements CommandRegistry
+class DefaultCommandRegistry implements CommandRegistry
 {
     /** @var Command[] */
     private array $commands = [];
@@ -33,15 +32,15 @@ class BuiltinCommandRegistry implements CommandRegistry
         $this->uploadCommands();
     }
 
-    public function isCommandExist(Method $method): bool
+    public function isCommandExist(string $method): bool
     {
-        return array_key_exists((string)$method, $this->commands);
+        return array_key_exists($method, $this->commands);
     }
 
     /**
      * @throws MethodNotFound
      */
-    public function fetchHandlerBy(Method $method): string
+    public function fetchHandlerBy(string $method): string
     {
         return $this->getCommand($method)->getHandler();
     }
@@ -49,7 +48,7 @@ class BuiltinCommandRegistry implements CommandRegistry
     /**
      * @throws MethodNotFound
      */
-    public function isDtoRequiredFor(Method $method): bool
+    public function isDtoRequiredFor(string $method): bool
     {
         return $this->getCommand($method)->getDTO() !== null;
     }
@@ -57,7 +56,7 @@ class BuiltinCommandRegistry implements CommandRegistry
     /**
      * @throws MethodNotFound
      */
-    public function fetchDtoBy(Method $method): ?string
+    public function fetchDtoBy(string $method): ?string
     {
         return $this->getCommand($method)->getDTO();
     }
@@ -65,13 +64,12 @@ class BuiltinCommandRegistry implements CommandRegistry
     /**
      * @throws MethodNotFound
      */
-    private function getCommand(Method $method): Command
+    private function getCommand(string $method): Command
     {
-        $methodName = (string)$method;
-        if (!array_key_exists($methodName, $this->commands)) {
+        if (!array_key_exists($method, $this->commands)) {
             throw new MethodNotFound();
         }
-        return $this->commands[$methodName];
+        return $this->commands[$method];
     }
 
     /**
@@ -82,7 +80,7 @@ class BuiltinCommandRegistry implements CommandRegistry
      */
     protected function uploadCommands(): void
     {
-        $configPath = dirname(__DIR__, 3) . $this->config->getCommandsDirectory();
+        $configPath = dirname(__DIR__, 4) . $this->config->getCommandsDirectory();
         if (false === file_exists($configPath)) {
             throw new ConfigurationNotFoundException($configPath);
         }

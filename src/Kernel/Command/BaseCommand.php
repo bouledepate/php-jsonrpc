@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command;
+namespace JRPC\Kernel\Command;
 
-use Kernel\Command\Interfaces\CommandDTO;
-use Kernel\Command\Interfaces\CommandInterface;
+use JRPC\Kernel\Command\Data\CommandDTO;
+use JRPC\Kernel\Command\Interfaces\CommandInterface;
 
 abstract class BaseCommand implements CommandInterface
 {

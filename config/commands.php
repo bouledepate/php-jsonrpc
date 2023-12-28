@@ -1,7 +1,5 @@
 <?php
 
-use WoopLeague\Application;
-
 /**
  * This file contains the command providers for your application. To register a new command provider,
  * you need to create a class that implements the CommandProvider interface and list it in this file.

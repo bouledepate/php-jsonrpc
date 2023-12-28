@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares;
+namespace JRPC\Kernel\Middlewares;
 
-use Kernel\Exception\JRPC\ParseErrorException;
+use JRPC\Kernel\Exception\JRPC\ParseErrorException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -41,12 +41,13 @@ final readonly class ContextMiddleware implements MiddlewareInterface
      */
     private function fetchDataFrom(ServerRequestInterface $request): array
     {
-        $requestBody = json_decode((string)$request->getBody(), true);
+        $content = (string)$request->getBody();
+        $parsedBody = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             throw new ParseErrorException();
         }
 
-        return $requestBody;
+        return $parsedBody;
     }
 }

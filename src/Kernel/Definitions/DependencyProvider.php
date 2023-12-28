@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Definitions;
+namespace JRPC\Kernel\Definitions;
 
 interface DependencyProvider
 {

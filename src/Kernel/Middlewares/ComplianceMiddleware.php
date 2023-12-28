@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Middlewares;
+namespace JRPC\Kernel\Middlewares;
 
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -71,7 +71,7 @@ final readonly class ComplianceMiddleware implements MiddlewareInterface
 
         $decodedJson = json_decode($content, true);
         if (json_last_error() === JSON_ERROR_NONE) {
-            return $decodedJson;
+            $content = $decodedJson;
         }
 
         return $content;

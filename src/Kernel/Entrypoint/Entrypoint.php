@@ -2,26 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Entrypoint;
+namespace JRPC\Kernel\Entrypoint;
 
-use Kernel\Command\Contract\CommandRequest;
-use Kernel\Command\Contract\Method;
-use Kernel\Command\Interfaces\CommandDispatcher;
-use Kernel\Exception\JRPC\InternalErrorException;
-use Kernel\Exception\JRPC\InvalidParamsException;
-use Kernel\Exception\JRPC\MethodNotFound;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
+use JRPC\Kernel\Command\Contract\CommandRequest;
+use JRPC\Kernel\Command\Interfaces\CommandDispatcher;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionException;
 
 readonly class Entrypoint implements EntrypointController
 {
     public function __construct(
-        private ResponseFactoryInterface   $factory,
-        private CommandDispatcher $dispatcher
+        private ResponseFactoryInterface $factory,
+        private CommandDispatcher        $dispatcher
     )
     {
     }
@@ -44,6 +37,6 @@ readonly class Entrypoint implements EntrypointController
     private function collectCommandRequest(ServerRequestInterface $request): CommandRequest
     {
         $requestData = $request->getParsedBody();
-        return new CommandRequest(new Method($requestData['method']), $requestData['params'] ?? []);
+        return new CommandRequest($requestData['method'], $requestData['params'] ?? []);
     }
 }

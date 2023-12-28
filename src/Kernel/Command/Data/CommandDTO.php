@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Command\Interfaces;
+namespace JRPC\Kernel\Command\Data;
 
 interface CommandDTO
 {

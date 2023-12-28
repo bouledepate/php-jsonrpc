@@ -1,6 +1,6 @@
 <?php
 
-namespace Kernel\Command\Interfaces;
+namespace JRPC\Kernel\Command\Interfaces;
 
 interface CommandProvider
 {

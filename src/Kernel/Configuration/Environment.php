@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Configuration;
+namespace JRPC\Kernel\Configuration;
 
 enum Environment: string
 {

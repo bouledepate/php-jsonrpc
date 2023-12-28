@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Definitions;
+namespace JRPC\Kernel\Definitions;
 
-use Kernel\Exception\AbstractException;
-use Kernel\Exception\ExceptionCode;
+use JRPC\Kernel\Exception\AbstractException;
+use JRPC\Kernel\Exception\ExceptionCode;
 use Throwable;
 
 final class DefinitionsFileNotFoundException extends AbstractException

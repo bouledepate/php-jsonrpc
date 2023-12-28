@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Definitions;
+namespace JRPC\Kernel\Definitions;
 
-use Kernel\Configuration\ApplicationConfig;
-use Kernel\Configuration\JsonRpcConfig;
-use Kernel\KernelDefinitions;
+use JRPC\Kernel\KernelConfig;
+use JRPC\Kernel\KernelDefinitions;
 use ReflectionClass;
 use ReflectionException;
 
@@ -15,15 +14,14 @@ final class DependencyCollector
     private array $providers = [];
 
     /**
-     * @param array|DependencyProvider[] $providers
      * @throws DefinitionsFileNotFoundException
      * @throws InvalidDefinitionsFormatException
      * @throws ReflectionException
      */
-    public function __construct(private readonly ApplicationConfig $config, JsonRpcConfig $jrpcConfig)
+    public function __construct(private readonly KernelConfig $config)
     {
         // Kernel definitions must be included.
-        $this->uploadProvider(new KernelDefinitions($jrpcConfig));
+        $this->uploadProvider(new KernelDefinitions($this->config));
         $this->loadProvidersFromConfiguration();
     }
 
@@ -50,13 +48,13 @@ final class DependencyCollector
     }
 
     /**
-     * @throws ReflectionException
      * @throws DefinitionsFileNotFoundException
      * @throws InvalidDefinitionsFormatException
+     * @throws ReflectionException
      */
     private function loadProvidersFromConfiguration(): void
     {
-        $definitionsPath = dirname(__DIR__, 3) . $this->config->getDefinitionDirectory();
+        $definitionsPath = dirname(__DIR__, 3) . $this->config->getMainConfig()->getDefinitionDirectory();
         if (false === file_exists($definitionsPath)) {
             throw new DefinitionsFileNotFoundException($definitionsPath);
         }

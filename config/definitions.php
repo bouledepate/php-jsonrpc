@@ -1,7 +1,5 @@
 <?php
 
-use WoopLeague\Application;
-
 /**
  * This file is intended to list all the definition providers of your application.
  *

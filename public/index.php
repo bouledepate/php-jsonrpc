@@ -2,8 +2,8 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Kernel\Exception\ShutdownHandler;
-use Kernel\KernelFactory;
+use JRPC\Kernel\KernelFactory;
+use JRPC\Kernel\Exception\Handler\ShutdownHandler;
 
 try {
     $application = KernelFactory::buildApplication();

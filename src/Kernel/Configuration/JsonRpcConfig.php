@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Configuration;
+namespace JRPC\Kernel\Configuration;
 
 final readonly class JsonRpcConfig implements Config
 {
     public function __construct(
         private string $entrypoint,
         private bool   $defaultEntrypoint,
-        private bool   $batchRequests
+        private bool   $batchRequests,
+        private bool   $uuidRequired
     )
     {
     }
@@ -27,5 +28,10 @@ final readonly class JsonRpcConfig implements Config
     public function isEnabledBatchRequests(): bool
     {
         return $this->batchRequests;
+    }
+
+    public function isUuidRequired(): bool
+    {
+        return $this->uuidRequired;
     }
 }

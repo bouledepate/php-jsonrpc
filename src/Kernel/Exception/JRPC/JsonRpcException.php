@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Kernel\Exception\JRPC;
+namespace JRPC\Kernel\Exception\JRPC;
 
-use Kernel\Exception\AbstractException;
-use Kernel\Exception\ExceptionCode;
+use JRPC\Kernel\Exception\AbstractException;
+use JRPC\Kernel\Exception\ExceptionCode;
 
 abstract class JsonRpcException extends AbstractException
 {

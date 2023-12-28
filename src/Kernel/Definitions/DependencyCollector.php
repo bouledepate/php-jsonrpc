@@ -54,7 +54,10 @@ final class DependencyCollector
      */
     private function loadProvidersFromConfiguration(): void
     {
-        $definitionsPath = dirname(__DIR__, 3) . $this->config->getMainConfig()->getDefinitionDirectory();
+        $root = $this->config->getMainConfig()->getRootPath();
+        $definitions = $this->config->getMainConfig()->getDefinitionDirectory();
+
+        $definitionsPath = $root . $definitions;
         if (false === file_exists($definitionsPath)) {
             throw new DefinitionsFileNotFoundException($definitionsPath);
         }

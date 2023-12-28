@@ -24,6 +24,7 @@ final readonly class ConfigFactory
     {
         return new ApplicationConfig(
             env: $this->getEnvironmentValue(Variables::ENVIRONMENT),
+            root: $this->getEnvironmentValue(Variables::ROOT_PATH),
             errorDetails: (bool)$this->getEnvironmentValue(Variables::DISPLAY_ERROR_DETAILS),
             logErrors: (bool)$this->getEnvironmentValue(Variables::LOG_ERRORS),
             logErrorDetails: (bool)$this->getEnvironmentValue(Variables::LOG_ERROR_DETAILS),

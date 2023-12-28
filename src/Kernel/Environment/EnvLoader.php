@@ -19,7 +19,8 @@ final readonly class EnvLoader
 
         # Required in .env, but can be empty if not necessary.
         $env->required([
-            Variables::MIDDLEWARES_CONFIG->name
+            Variables::MIDDLEWARES_CONFIG->name,
+            Variables::ROOT_PATH->name
         ]);
 
         # Required and must be boolean.

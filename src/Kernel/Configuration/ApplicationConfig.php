@@ -8,6 +8,7 @@ final readonly class ApplicationConfig implements Config
 {
     public function __construct(
         private string  $env,
+        private ?string $root,
         private bool    $errorDetails,
         private bool    $logErrors,
         private bool    $logErrorDetails,
@@ -21,6 +22,23 @@ final readonly class ApplicationConfig implements Config
     public function getEnvironment(): Environment
     {
         return Environment::current($this->env);
+    }
+
+    public function getRootPath(): string
+    {
+        $path = $this->root;
+        if ($path !== null) {
+            $path = realpath($path);
+        }
+        if (false === $path || null === $path) {
+            $path = $this->getDefaultRoot();
+        }
+        return $path;
+    }
+
+    private function getDefaultRoot(): string
+    {
+        return realpath(dirname($_SERVER['DOCUMENT_ROOT']));
     }
 
     public function isDevelopment(): bool

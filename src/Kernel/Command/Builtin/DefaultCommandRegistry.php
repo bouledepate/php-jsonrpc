@@ -80,7 +80,7 @@ class DefaultCommandRegistry implements CommandRegistry
      */
     protected function uploadCommands(): void
     {
-        $configPath = dirname(__DIR__, 4) . $this->config->getCommandsDirectory();
+        $configPath = $this->config->getRootPath() . $this->config->getCommandsDirectory();
         if (false === file_exists($configPath)) {
             throw new ConfigurationNotFoundException($configPath);
         }

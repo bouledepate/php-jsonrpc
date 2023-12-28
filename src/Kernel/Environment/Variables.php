@@ -7,6 +7,7 @@ namespace JRPC\Kernel\Environment;
 enum Variables
 {
     case ENVIRONMENT;
+    case ROOT_PATH;
     case DISPLAY_ERROR_DETAILS;
     case LOG_ERRORS;
     case LOG_ERROR_DETAILS;

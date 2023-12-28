@@ -84,7 +84,7 @@ final readonly class KernelFactory
             return $middlewares;
         }
 
-        $middlewaresPath = dirname(__DIR__, 2) . $mainConfig->getMiddlewaresDirectory();
+        $middlewaresPath = $mainConfig->getRootPath() . $mainConfig->getMiddlewaresDirectory();
         if (false === file_exists($middlewaresPath)) {
             throw new MiddlewaresFileNotFoundException($middlewaresPath);
         }

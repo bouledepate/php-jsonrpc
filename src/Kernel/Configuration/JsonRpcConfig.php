@@ -9,7 +9,7 @@ final readonly class JsonRpcConfig implements Config
     public function __construct(
         private string $entrypoint,
         private bool   $defaultEntrypoint,
-        private bool   $batchRequests,
+//        private bool   $batchRequests,
         private bool   $uuidRequired
     )
     {
@@ -25,10 +25,10 @@ final readonly class JsonRpcConfig implements Config
         return $this->defaultEntrypoint;
     }
 
-    public function isEnabledBatchRequests(): bool
-    {
-        return $this->batchRequests;
-    }
+//    public function isEnabledBatchRequests(): bool
+//    {
+//        return $this->batchRequests;
+//    }
 
     public function isUuidRequired(): bool
     {

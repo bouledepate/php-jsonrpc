@@ -39,7 +39,7 @@ final readonly class ConfigFactory
         return new JsonRpcConfig(
             entrypoint: $this->getEnvironmentValue(Variables::JRPC_ENTRYPOINT),
             defaultEntrypoint: (bool)$this->getEnvironmentValue(Variables::JRPC_USE_DEFAULT_ENTRYPOINT),
-            batchRequests: (bool)$this->getEnvironmentValue(Variables::JRPC_BATCH_REQUESTS),
+//            batchRequests: (bool)$this->getEnvironmentValue(Variables::JRPC_BATCH_REQUESTS),
             uuidRequired: (bool)$this->getEnvironmentValue(Variables::JRPC_UUID_REQUIRED)
         );
     }

@@ -29,7 +29,7 @@ final readonly class EnvLoader
             Variables::LOG_ERRORS->name,
             Variables::LOG_ERROR_DETAILS->name,
             Variables::JRPC_USE_DEFAULT_ENTRYPOINT->name,
-            Variables::JRPC_BATCH_REQUESTS->name,
+//            Variables::JRPC_BATCH_REQUESTS->name,
             Variables::JRPC_UUID_REQUIRED->name
         ])->isBoolean();
 

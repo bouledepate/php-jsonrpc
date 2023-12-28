@@ -16,6 +16,6 @@ enum Variables
     case MIDDLEWARES_CONFIG;
     case JRPC_ENTRYPOINT;
     case JRPC_USE_DEFAULT_ENTRYPOINT;
-    case JRPC_BATCH_REQUESTS;
+//    case JRPC_BATCH_REQUESTS;
     case JRPC_UUID_REQUIRED;
 }

@@ -26,14 +26,10 @@ final readonly class ApplicationConfig implements Config
 
     public function getRootPath(): string
     {
-        $path = $this->root;
-        if ($path !== null) {
-            $path = realpath($path);
+        if ($this->root !== null && ($path = realpath($this->root)) !== false) {
+            return $path;
         }
-        if (false === $path || null === $path) {
-            $path = $this->getDefaultRoot();
-        }
-        return $path;
+        return $this->getDefaultRoot();
     }
 
     private function getDefaultRoot(): string

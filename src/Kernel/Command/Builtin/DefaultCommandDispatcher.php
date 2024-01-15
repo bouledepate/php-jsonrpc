@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace JRPC\Kernel\Command\Builtin;
 
+use JRPC\Kernel\Command\BaseCommand;
 use JRPC\Kernel\Command\Contract\CommandRequest;
 use JRPC\Kernel\Command\Contract\CommandResponse;
 use JRPC\Kernel\Command\Data\DtoCollectorInterface;
-use JRPC\Kernel\Command\Exception\CommandHandlerNotInstantiated;
+use JRPC\Kernel\Command\Exception\CommandNotInstantiated;
 use JRPC\Kernel\Command\Interfaces\CommandDispatcher;
+use JRPC\Kernel\Command\Interfaces\CommandInterface;
 use JRPC\Kernel\Command\Interfaces\CommandRegistry;
 use JRPC\Kernel\Exception\JRPC\MethodNotFound;
 use Psr\Container\ContainerExceptionInterface;
@@ -30,33 +32,49 @@ final readonly class DefaultCommandDispatcher implements CommandDispatcher
     /**
      * @param CommandRequest $commandRequest
      * @return CommandResponse
-     * @throws CommandHandlerNotInstantiated
+     * @throws CommandNotInstantiated
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      * @throws MethodNotFound
      */
     public function dispatch(CommandRequest $commandRequest): CommandResponse
     {
-        $method = $commandRequest->getMethod();
-        $commandHandler = $this->commandRegistry->fetchHandlerBy($method);
+        $method = $commandRequest->getMethod()->getValue();
+        $commandClass = $this->commandRegistry->fetchCommandBy($method);
 
-        if (!$this->container->has($commandHandler)) {
-            throw new CommandHandlerNotInstantiated($commandHandler);
+        if (false === $this->container->has($commandClass)) {
+            throw new CommandNotInstantiated($commandClass);
         }
 
-        $commandHandler = $this->container->get($commandHandler);
-        $parameters = $commandRequest->getParameters();
+        $command = $this->collectCommand($commandClass, $commandRequest);
+        $command->execute();
+
+        return new CommandResponse(
+            data: $this->serializer->serialize($command->getResult(), 'json')
+        );
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     * @throws MethodNotFound
+     */
+    private function collectCommand(string $class, CommandRequest $commandRequest): CommandInterface
+    {
+        $method = $commandRequest->getMethod()->getValue();
+
+        /** @var BaseCommand $command */
+        $command = $this->container->get($class);
+        $command->setContext($commandRequest);
 
         if ($this->commandRegistry->isDtoRequiredFor($method)) {
-            $dtoClass = $this->commandRegistry->fetchDtoBy($method);
-            if ($dtoClass !== null) {
-                $dto = $this->dtoFactory->collectDTO($dtoClass, $parameters);
-                $commandHandler->setPayload($dto);
-            }
+            $dto = $this->dtoFactory->collectDTO(
+                dtoClass: $this->commandRegistry->fetchDtoBy($method),
+                parameters: $commandRequest->getParameters()->getValueAsString()
+            );
+            $command->setPayload($dto);
         }
 
-        $commandHandler->execute();
-        $responseData = $this->serializer->serialize($commandHandler->getResult(), 'json');
-        return new CommandResponse($responseData);
+        return $command;
     }
 }

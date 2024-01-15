@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace JRPC\Kernel\Entrypoint;
 
 use JRPC\Kernel\Command\Contract\CommandRequest;
+use JRPC\Kernel\Command\Contract\Method;
+use JRPC\Kernel\Command\Contract\Parameters;
 use JRPC\Kernel\Command\Interfaces\CommandDispatcher;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -36,7 +38,13 @@ readonly class Entrypoint implements EntrypointController
 
     private function collectCommandRequest(ServerRequestInterface $request): CommandRequest
     {
-        $requestData = $request->getParsedBody();
-        return new CommandRequest($requestData['method'], $requestData['params'] ?? []);
+        $requestBody = $request->getParsedBody();
+        $params = $requestBody['params'] ?? null;
+
+        return new CommandRequest(
+            method: new Method($requestBody['method']),
+            parameters: $params ? new Parameters($params) : null,
+            serverRequest: $request
+        );
     }
 }

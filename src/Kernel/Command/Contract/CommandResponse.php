@@ -6,12 +6,12 @@ namespace JRPC\Kernel\Command\Contract;
 
 final readonly class CommandResponse
 {
-    public function __construct(private string $serializedData)
+    public function __construct(private string $data)
     {
     }
 
     public function getSerializedData(): string
     {
-        return $this->serializedData;
+        return $this->data;
     }
 }

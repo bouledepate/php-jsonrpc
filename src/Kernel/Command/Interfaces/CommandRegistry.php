@@ -8,10 +8,8 @@ use JRPC\Kernel\Exception\JRPC\MethodNotFound;
 
 interface CommandRegistry
 {
-    public function isCommandExist(string $method): bool;
-
     /** @throws MethodNotFound */
-    public function fetchHandlerBy(string $method): string;
+    public function fetchCommandBy(string $method): string;
 
     /** @throws MethodNotFound */
     public function isDtoRequiredFor(string $method): bool;

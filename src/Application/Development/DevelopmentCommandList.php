@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Application\Development;
 
 use JRPC\Kernel\Command\Interfaces\CommandProvider;
-use Application\Development\Features\Environment\GetEnvironment;
+use Application\Development\Features\CheckEnvironment\CheckEnvironment;
+use Application\Development\Features\GetEnvironment\GetEnvironment;
 
 final readonly class DevelopmentCommandList implements CommandProvider
 {
@@ -13,6 +14,7 @@ final readonly class DevelopmentCommandList implements CommandProvider
     {
         return [
             GetEnvironment::class,
+            CheckEnvironment::class
         ];
     }
 }

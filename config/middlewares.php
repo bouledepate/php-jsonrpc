@@ -1,5 +1,7 @@
 <?php
 
+use Application\Development\Components\TokenMiddleware;
+
 /**
  * This file is intended for the registration of custom middlewares in your application.
  *
@@ -14,4 +16,6 @@
  *     \Your\Application\LoggingMiddleware::class,
  * ];
  */
-return [];
+return [
+    TokenMiddleware::class,
+];

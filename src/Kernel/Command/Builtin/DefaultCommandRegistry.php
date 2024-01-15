@@ -32,15 +32,10 @@ class DefaultCommandRegistry implements CommandRegistry
         $this->uploadCommands();
     }
 
-    public function isCommandExist(string $method): bool
-    {
-        return array_key_exists($method, $this->commands);
-    }
-
     /**
      * @throws MethodNotFound
      */
-    public function fetchHandlerBy(string $method): string
+    public function fetchCommandBy(string $method): string
     {
         return $this->getCommand($method)->getHandler();
     }

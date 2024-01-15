@@ -15,5 +15,5 @@
  * ];
  */
 return [
-    Application\Definitions::class,
+    Application\Development\DevelopmentDefinitions::class,
 ];

@@ -7,9 +7,7 @@ namespace Bouledepate\JsonRpc\Model;
 use Bouledepate\JsonRpc\Exceptions\MethodNotFoundException;
 
 /**
- * Represents a JSON-RPC method.
- * Ensures the validity of the method name and provides access to its name.
- *
+ * @package Bouledepate\JsonRpc\Model
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 readonly class Method
@@ -25,7 +23,7 @@ readonly class Method
      */
     public function __construct(private string $name)
     {
-        if (preg_match('/^rpc.+$/', $this->name)) {
+        if (preg_match('/^rpc\./', $this->name)) {
             throw new MethodNotFoundException(
                 content: ['note' => 'Method names starting with "rpc." are reserved for internal use only.'],
                 rewrite: false

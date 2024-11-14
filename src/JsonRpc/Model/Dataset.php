@@ -8,9 +8,7 @@ use Bouledepate\JsonRpc\Exceptions\ParseErrorException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Represents a set of data extracted from a JSON-RPC request.
- * Handles parsing of the JSON content from the request and provides access to the data.
- *
+ * @package Bouledepate\JsonRpc\Model
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 final readonly class Dataset

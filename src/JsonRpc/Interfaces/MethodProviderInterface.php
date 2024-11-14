@@ -9,6 +9,7 @@ use Bouledepate\JsonRpc\Model\Method;
 /**
  * Specifies how to check for the existence of a method within the JSON-RPC server.
  *
+ * @package Bouledepate\JsonRpc\Interfaces
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 interface MethodProviderInterface

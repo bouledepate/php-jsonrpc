@@ -7,15 +7,12 @@ namespace Bouledepate\JsonRpc\Exceptions;
 use Exception;
 
 /**
- * Represents a server error in JSON-RPC.
- *
+ * @package Bouledepate\JsonRpc\Exceptions
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 final class ServerErrorException extends JsonRpcException
 {
     /**
-     * Constructor for ServerErrorException.
-     *
      * @param array $content Additional content for the exception.
      * @param bool $rewrite Whether to overwrite existing content or merge.
      * @param Exception|null $previous Previous exception for exception chaining.
@@ -26,13 +23,13 @@ final class ServerErrorException extends JsonRpcException
         ?Exception $previous = null
     ) {
         $defaultContent = [
-            'details' => 'A server error occurred. This is an implementation-defined server error.'
+            'details' => 'A server error occurred. This is an implementation-defined server error'
         ];
 
         $content = $rewrite ? $content : array_merge($defaultContent, $content);
 
         parent::__construct(
-            message: 'Server error.',
+            message: 'Server error',
             code: -32000,
             content: $content,
             rewrite: $rewrite,

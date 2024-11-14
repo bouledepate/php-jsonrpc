@@ -8,8 +8,7 @@ use Bouledepate\JsonRpc\Interfaces\ArrayOutputInterface;
 use JsonSerializable;
 
 /**
- * Abstract class representing a JSON-RPC response.
- *
+ * @package Bouledepate\JsonRpc\Contract
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 abstract readonly class JsonRpcResponse implements ArrayOutputInterface, JsonSerializable

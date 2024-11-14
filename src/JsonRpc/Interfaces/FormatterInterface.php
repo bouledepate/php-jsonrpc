@@ -11,6 +11,7 @@ use Throwable;
 /**
  * Outlines the methods required for formatting JSON-RPC responses.
  *
+ * @package Bouledepate\JsonRpc\Interfaces
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 interface FormatterInterface

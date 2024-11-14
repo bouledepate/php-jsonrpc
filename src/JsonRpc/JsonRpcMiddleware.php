@@ -4,15 +4,13 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc;
 
-use Bouledepate\JsonRpc\Contract\ErrorJsonRpcResponse;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Bouledepate\JsonRpc\Exceptions\InvalidRequestException;
 use Bouledepate\JsonRpc\Exceptions\MethodNotFoundException;
 use Bouledepate\JsonRpc\Exceptions\ParseErrorException;
-use Bouledepate\JsonRpc\Interfaces\CustomErrorHandlerInterface;
 use Bouledepate\JsonRpc\Interfaces\FormatterInterface;
-use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
 use Bouledepate\JsonRpc\Interfaces\MethodProviderInterface;
+use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
 use Bouledepate\JsonRpc\Model\Dataset;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -20,18 +18,13 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use RuntimeException;
-use Throwable;
 
 /**
- * Implements the MiddlewareInterface to handle JSON-RPC requests.
- * Validates requests, invokes appropriate methods, and formats responses.
- *
+ * @package Bouledepate\JsonRpc
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
-class JsonRpcMiddleware implements MiddlewareInterface
+class JsonRpcMiddleware extends DefaultMiddleware
 {
     /**
      * @var FormatterInterface The formatter for JSON-RPC responses.
@@ -54,11 +47,6 @@ class JsonRpcMiddleware implements MiddlewareInterface
     private ResponseFactoryInterface $responseFactory;
 
     /**
-     * @var CustomErrorHandlerInterface|null The custom error handler.
-     */
-    private ?CustomErrorHandlerInterface $errorHandler;
-
-    /**
      * Initializes the middleware with necessary dependencies from the container.
      *
      * @param ContainerInterface $container The dependency injection container.
@@ -66,13 +54,13 @@ class JsonRpcMiddleware implements MiddlewareInterface
      * @throws NotFoundExceptionInterface If a required service is not found in the container.
      * @throws ContainerExceptionInterface If there is an error retrieving a service from the container.
      */
-    public function __construct(
-        private readonly ContainerInterface $container
-    ) {
+    public function __construct(ContainerInterface $container)
+    {
+        parent::__construct($container);
+
         $this->validator = new JsonRpcValidator();
         $this->responseFactory = $this->getResponseFactory();
         $this->methodProvider = $this->getContainerInstance(MethodProviderInterface::class);
-        $this->errorHandler = $this->getContainerInstance(CustomErrorHandlerInterface::class);
         $this->formatter = $this->getContainerInstance(FormatterInterface::class, new JsonRpcFormatter());
     }
 
@@ -94,56 +82,17 @@ class JsonRpcMiddleware implements MiddlewareInterface
         $this->validator->validate($dataset);
 
         $jrpcRequest = new JsonRpcRequest(
-            id: $dataset->getProperty('id') ?? false,
+            id: $dataset->getProperty('id'),
             method: $dataset->getProperty('method'),
-            params: $dataset->getProperty('params')
+            params: $dataset->getProperty('params'),
+            isNotification: !$dataset->hasProperty('id')
         );
 
         if (!$this->isMethodAvailable($jrpcRequest)) {
             throw new MethodNotFoundException();
         }
 
-        try {
-            return $this->processRequest($request, $handler, $jrpcRequest);
-        } catch (Throwable $exception) {
-            return $this->handleError($request, $jrpcRequest, $exception);
-        }
-    }
-
-    /**
-     * Retrieves an instance from the container or returns a default value.
-     *
-     * @param string $interface The interface or class name to retrieve.
-     * @param mixed|null $default The default value to return if the instance is not found.
-     *
-     * @return mixed The instance retrieved from the container or the default value.
-     *
-     * @throws ContainerExceptionInterface If there is an error retrieving the instance.
-     * @throws NotFoundExceptionInterface If the interface is not found in the container.
-     */
-    private function getContainerInstance(string $interface, mixed $default = null): mixed
-    {
-        if ($this->container->has($interface)) {
-            $instance = $this->container->get($interface);
-            if ($instance instanceof $interface) {
-                return $instance;
-            }
-        }
-        return $default;
-    }
-
-    /**
-     * Retrieves the ResponseFactoryInterface instance from the container.
-     *
-     * @return ResponseFactoryInterface The response factory.
-     *
-     * @throws ContainerExceptionInterface If there is an error retrieving the instance.
-     * @throws NotFoundExceptionInterface If the ResponseFactoryInterface is not found in the container.
-     */
-    private function getResponseFactory(): ResponseFactoryInterface
-    {
-        return $this->getContainerInstance(ResponseFactoryInterface::class)
-            ?? throw new RuntimeException('An instance of ResponseFactoryInterface must be provided.');
+        return $this->processRequest($request, $handler, $jrpcRequest);
     }
 
     /**
@@ -180,44 +129,5 @@ class JsonRpcMiddleware implements MiddlewareInterface
         }
 
         return $response;
-    }
-
-    /**
-     * Handles any exceptions that occur during the processing of the request.
-     *
-     * @param ServerRequestInterface $request The incoming server request.
-     * @param JsonRpcRequest $jrpcRequest The JSON-RPC request object.
-     * @param Throwable $exception The exception that was thrown.
-     *
-     * @return ResponseInterface The HTTP response representing the error.
-     */
-    private function handleError(
-        ServerRequestInterface $request,
-        JsonRpcRequest $jrpcRequest,
-        Throwable $exception
-    ): ResponseInterface {
-        if ($jrpcRequest->isNotification()) {
-            return $this->responseFactory->createResponse(204);
-        }
-
-        if ($this->errorHandler) {
-            $id = $exception instanceof ParseErrorException || $exception instanceof InvalidRequestException
-                ? null
-                : $jrpcRequest->getId();
-
-            $content = $this->formatter->formatError($exception);
-            return $this->errorHandler->handle(
-                serverRequest: $request,
-                jrpcRequest: $jrpcRequest,
-                jrpcResponse: new ErrorJsonRpcResponse($id, $content),
-                exception: $exception
-            );
-        }
-
-        return $this->formatter->formatInvalidResponse(
-            request: $jrpcRequest,
-            response: $this->responseFactory->createResponse(400),
-            exception: $exception
-        );
     }
 }

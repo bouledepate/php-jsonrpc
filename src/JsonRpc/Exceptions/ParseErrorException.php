@@ -7,15 +7,12 @@ namespace Bouledepate\JsonRpc\Exceptions;
 use Exception;
 
 /**
- * Represents a parse error in the JSON-RPC request.
- *
+ * @package Bouledepate\JsonRpc\Exceptions
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 final class ParseErrorException extends JsonRpcException
 {
     /**
-     * Constructor for ParseErrorException.
-     *
      * @param array $content Additional content for the exception.
      * @param bool $rewrite Whether to overwrite existing content or merge.
      * @param Exception|null $previous Previous exception for exception chaining.
@@ -26,13 +23,13 @@ final class ParseErrorException extends JsonRpcException
         ?Exception $previous = null
     ) {
         $defaultContent = [
-            'details' => 'Unable to parse request: Content-Type must be `application/json` and body must contain valid JSON.'
+            'details' => 'Unable to parse request: Content-Type must be `application/json` and body must contain valid JSON'
         ];
 
         $content = $rewrite ? $content : array_merge($defaultContent, $content);
 
         parent::__construct(
-            message: 'Parse error.',
+            message: 'Parse error',
             code: -32700,
             content: $content,
             rewrite: $rewrite,

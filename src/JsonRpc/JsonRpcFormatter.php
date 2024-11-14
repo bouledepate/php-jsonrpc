@@ -16,9 +16,7 @@ use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
 /**
- * Implements the JrpcFormatterInterface to handle formatting of JSON-RPC responses,
- * including successful responses, invalid responses, and error responses.
- *
+ * @package Bouledepate\JsonRpc
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 class JsonRpcFormatter implements FormatterInterface
@@ -105,7 +103,8 @@ class JsonRpcFormatter implements FormatterInterface
     {
         $response->getBody()->rewind();
         $response->getBody()->write(json_encode($data));
-        return $response;
+
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**

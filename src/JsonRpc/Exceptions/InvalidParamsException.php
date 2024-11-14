@@ -7,15 +7,12 @@ namespace Bouledepate\JsonRpc\Exceptions;
 use Exception;
 
 /**
- * Represents an error due to invalid parameters in a JSON-RPC request.
- *
+ * @package Bouledepate\JsonRpc\Exceptions
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 final class InvalidParamsException extends JsonRpcException
 {
     /**
-     * Constructor for InvalidParamsException.
-     *
      * @param array $content Additional content for the exception.
      * @param bool $rewrite Whether to overwrite existing content or merge.
      * @param Exception|null $previous Previous exception for exception chaining.
@@ -26,13 +23,13 @@ final class InvalidParamsException extends JsonRpcException
         ?Exception $previous = null
     ) {
         $defaultContent = [
-            'details' => 'Invalid method parameter(s).'
+            'details' => 'Invalid method parameter(s)'
         ];
 
         $content = $rewrite ? $content : array_merge($defaultContent, $content);
 
         parent::__construct(
-            message: 'Invalid params.',
+            message: 'Invalid params',
             code: -32602,
             content: $content,
             rewrite: $rewrite,

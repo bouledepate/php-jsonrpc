@@ -13,6 +13,7 @@ use Throwable;
 /**
  * Specifies how custom error handling can be implemented within the JSON-RPC server.
  *
+ * @package Bouledepate\JsonRpc\Interfaces
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 interface CustomErrorHandlerInterface

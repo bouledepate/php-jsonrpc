@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Bouledepate\JsonRpc\Model;
 
 /**
- * Trait providing methods to access properties within a content structure.
- *
+ * @package Bouledepate\JsonRpc\Model
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 trait PropertyAccessorTrait

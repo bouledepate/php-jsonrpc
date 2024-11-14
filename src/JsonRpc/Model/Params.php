@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace Bouledepate\JsonRpc\Model;
 
 /**
- * Represents the parameters of a JSON-RPC request.
- *
+ * @package Bouledepate\JsonRpc\Model
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 readonly class Params

@@ -8,8 +8,7 @@ use Bouledepate\JsonRpc\Interfaces\ExceptionContentInterface;
 use Exception;
 
 /**
- * Base class for all JSON-RPC exceptions.
- *
+ * @package Bouledepate\JsonRpc\Exceptions
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 abstract class JsonRpcException extends Exception implements ExceptionContentInterface
@@ -22,17 +21,17 @@ abstract class JsonRpcException extends Exception implements ExceptionContentInt
     protected ?array $content;
 
     /**
-     * Constructor for JsonRpcException.
-     *
      * @param string $message The exception message.
      * @param int $code The exception code.
      * @param array $content Additional content for the exception.
+     * @param bool $rewrite Whether to overwrite existing content or merge.
      * @param Exception|null $previous Previous exception for exception chaining.
      */
     public function __construct(
         string $message,
         int $code,
         array $content = [],
+        bool $rewrite = true,
         ?Exception $previous = null
     ) {
         $this->content = $content;

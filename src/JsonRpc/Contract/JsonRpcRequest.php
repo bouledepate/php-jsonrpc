@@ -11,37 +11,73 @@ use Bouledepate\JsonRpc\Model\Params;
 use JsonSerializable;
 
 /**
- * Represents a JSON-RPC request.
- *
+ * @package Bouledepate\JsonRpc\Contract
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
 {
+    /**
+     * The JSON-RPC version.
+     */
     private const VERSION = '2.0';
 
-    private Method $method;
+    /**
+     * The identifier of the request.
+     *
+     * Can be an integer, string, or null.
+     *
+     * @var int|string|null The request identifier.
+     */
+    private int|string|null $id;
+
+    /**
+     * The method to be invoked.
+     *
+     * @var Method|null The JSON-RPC method object.
+     */
+    private ?Method $method;
+
+    /**
+     * The parameters for the method.
+     *
+     * @var Params|null The JSON-RPC parameters object.
+     */
     private ?Params $params;
 
     /**
-     * @param int|string|false $id The request ID. Use `false` for notifications.
-     * @param string $method The method name.
-     * @param array|null $params The method parameters.
+     * Indicates whether the request is a notification.
      *
-     * @throws MethodNotFoundException If the method does not exist.
+     * @var bool True if the request is a notification; otherwise, false.
+     */
+    private bool $isNotification;
+
+    /**
+     * Initializes the JSON-RPC request with the provided identifier, method name,
+     * and parameters. Throws an exception if the method name is invalid.
+     *
+     * @param int|string|null $id The identifier of the request.
+     * @param string|null $method The name of the method to invoke.
+     * @param array|null $params The parameters for the method.
+     * @param bool $isNotification Whether the request is a notification.
+     *
+     * @throws MethodNotFoundException If the method name is reserved or invalid.
      */
     public function __construct(
-        private int|string|false $id,
-        string $method,
-        ?array $params = null
+        int|string|null $id,
+        ?string $method,
+        ?array $params = null,
+        bool $isNotification = false
     ) {
-        $this->method = new Method($method);
+        $this->id = $id;
+        $this->method = $method !== null ? new Method($method) : null;
         $this->params = $params !== null ? new Params($params) : null;
+        $this->isNotification = $isNotification;
     }
 
     /**
      * Gets the JSON-RPC version.
      *
-     * @return string
+     * @return string The JSON-RPC version.
      */
     public function getVersion(): string
     {
@@ -51,9 +87,9 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
     /**
      * Gets the method.
      *
-     * @return Method
+     * @return Method|null The JSON-RPC method object.
      */
-    public function getMethod(): Method
+    public function getMethod(): ?Method
     {
         return $this->method;
     }
@@ -61,7 +97,7 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
     /**
      * Gets the parameters.
      *
-     * @return Params|null
+     * @return Params|null The JSON-RPC parameters object.
      */
     public function getParams(): ?Params
     {
@@ -71,9 +107,9 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
     /**
      * Gets the request ID.
      *
-     * @return int|string|false
+     * @return int|string|null The identifier of the request, or null if it's a notification.
      */
-    public function getId(): int|string|false
+    public function getId(): int|string|null
     {
         return $this->id;
     }
@@ -81,17 +117,20 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
     /**
      * Determines if the request is a notification (no response expected).
      *
-     * @return bool
+     * @return bool True if the request is a notification; otherwise, false.
      */
     public function isNotification(): bool
     {
-        return $this->id === false;
+        return $this->isNotification;
     }
 
     /**
      * Converts the request to an associative array.
      *
-     * @return array
+     * This method is used to serialize the request into a format suitable
+     * for JSON encoding.
+     *
+     * @return array The associative array representation of the JSON-RPC request.
      */
     public function toArray(): array
     {
@@ -104,7 +143,7 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
             $result['params'] = $this->params->getContent();
         }
 
-        if ($this->id !== false) {
+        if ($this->id !== null) {
             $result['id'] = $this->id;
         }
 
@@ -114,7 +153,10 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
     /**
      * Specifies data which should be serialized to JSON.
      *
-     * @return array
+     * This method is used by functions like json_encode to convert the object
+     * into a JSON-compatible format.
+     *
+     * @return array The data that should be serialized to JSON.
      */
     public function jsonSerialize(): array
     {

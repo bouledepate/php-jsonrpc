@@ -7,6 +7,7 @@ namespace Bouledepate\JsonRpc\Interfaces;
 /**
  * Defines how the content of an exception should be retrieved.
  *
+ * @package Bouledepate\JsonRpc\Interfaces
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 interface ExceptionContentInterface

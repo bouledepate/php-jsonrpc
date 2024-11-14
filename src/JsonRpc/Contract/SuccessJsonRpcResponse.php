@@ -5,16 +5,13 @@ declare(strict_types=1);
 namespace Bouledepate\JsonRpc\Contract;
 
 /**
- * Represents a successful JSON-RPC response.
- *
+ * @package Bouledepate\JsonRpc\Contract
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 final readonly class SuccessJsonRpcResponse extends JsonRpcResponse
 {
     /**
-     * Constructor for SuccessJsonRpcResponse.
-     *
-     * @param string|int|null $id The identifier of the request. Use `null` for notifications.
+     * @param string|int|null $id The identifier of the request.
      * @param mixed $result The result of the method execution.
      */
     public function __construct(

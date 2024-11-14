@@ -9,9 +9,7 @@ use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
 use Bouledepate\JsonRpc\Model\Dataset;
 
 /**
- * Implements the JrpcValidatorInterface to validate JSON-RPC requests.
- * Ensures that the request adheres to the JSON-RPC 2.0 specification.
- *
+ * @package Bouledepate\JsonRpc
  * @author Semyon Shmik <promtheus815@gmail.com>
  */
 final class JsonRpcValidator implements ValidatorInterface

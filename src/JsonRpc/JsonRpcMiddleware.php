@@ -22,29 +22,29 @@ use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * @package Bouledepate\JsonRpc
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 class JsonRpcMiddleware extends DefaultMiddleware
 {
     /**
      * @var FormatterInterface The formatter for JSON-RPC responses.
      */
-    private FormatterInterface $formatter;
+    protected FormatterInterface $formatter;
 
     /**
      * @var ValidatorInterface The validator for JSON-RPC requests.
      */
-    private ValidatorInterface $validator;
+    protected ValidatorInterface $validator;
 
     /**
      * @var MethodProviderInterface|null The provider to check for method existence.
      */
-    private ?MethodProviderInterface $methodProvider;
+    protected ?MethodProviderInterface $methodProvider;
 
     /**
      * @var ResponseFactoryInterface The factory to create HTTP responses.
      */
-    private ResponseFactoryInterface $responseFactory;
+    protected ResponseFactoryInterface $responseFactory;
 
     /**
      * Initializes the middleware with necessary dependencies from the container.
@@ -67,7 +67,7 @@ class JsonRpcMiddleware extends DefaultMiddleware
     /**
      * Processes an incoming server request and produces a response.
      *
-     * @param ServerRequestInterface $request The incoming server request.
+     * @param ServerRequestInterface  $request The incoming server request.
      * @param RequestHandlerInterface $handler The request handler to delegate to.
      *
      * @return ResponseInterface The HTTP response.
@@ -102,7 +102,7 @@ class JsonRpcMiddleware extends DefaultMiddleware
      *
      * @return bool True if the method exists and is available; otherwise, false.
      */
-    private function isMethodAvailable(JsonRpcRequest $jrpcRequest): bool
+    protected function isMethodAvailable(JsonRpcRequest $jrpcRequest): bool
     {
         return $this->methodProvider && $this->methodProvider->exist($jrpcRequest->getMethod());
     }
@@ -110,13 +110,13 @@ class JsonRpcMiddleware extends DefaultMiddleware
     /**
      * Processes the JSON-RPC request by delegating to the request handler and formatting the response.
      *
-     * @param ServerRequestInterface $request The incoming server request.
-     * @param RequestHandlerInterface $handler The request handler to delegate to.
-     * @param JsonRpcRequest $jrpcRequest The JSON-RPC request object.
+     * @param ServerRequestInterface  $request     The incoming server request.
+     * @param RequestHandlerInterface $handler     The request handler to delegate to.
+     * @param JsonRpcRequest          $jrpcRequest The JSON-RPC request object.
      *
      * @return ResponseInterface The formatted JSON-RPC response.
      */
-    private function processRequest(
+    protected function processRequest(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler,
         JsonRpcRequest $jrpcRequest

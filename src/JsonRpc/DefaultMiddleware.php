@@ -13,7 +13,7 @@ use RuntimeException;
 
 /**
  * @package Bouledepate\JsonRpc
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 abstract class DefaultMiddleware implements MiddlewareInterface
 {
@@ -24,8 +24,8 @@ abstract class DefaultMiddleware implements MiddlewareInterface
     /**
      * Retrieves an instance from the container or returns a default value.
      *
-     * @param string $interface The interface or class name to retrieve.
-     * @param mixed|null $default The default value to return if the instance is not found.
+     * @param string     $interface The interface or class name to retrieve.
+     * @param mixed|null $default   The default value to return if the instance is not found.
      *
      * @return mixed The instance retrieved from the container or the default value.
      *

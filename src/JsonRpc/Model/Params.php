@@ -6,7 +6,7 @@ namespace Bouledepate\JsonRpc\Model;
 
 /**
  * @package Bouledepate\JsonRpc\Model
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 readonly class Params
 {

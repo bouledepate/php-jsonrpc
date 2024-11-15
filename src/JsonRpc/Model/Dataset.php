@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @package Bouledepate\JsonRpc\Model
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 final readonly class Dataset
 {

@@ -8,7 +8,7 @@ use Bouledepate\JsonRpc\Exceptions\MethodNotFoundException;
 
 /**
  * @package Bouledepate\JsonRpc\Model
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 readonly class Method
 {

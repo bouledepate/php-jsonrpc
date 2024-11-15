@@ -25,7 +25,7 @@ use Throwable;
 
 /**
  * @package Bouledepate\JsonRpc
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInterface
 {
@@ -71,7 +71,7 @@ class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInte
      * Process an incoming server request and return a response, optionally delegating
      * response creation to a handler.
      *
-     * @param ServerRequestInterface $request The incoming server request.
+     * @param ServerRequestInterface  $request The incoming server request.
      * @param RequestHandlerInterface $handler The request handler.
      *
      * @return ResponseInterface The response.
@@ -88,8 +88,8 @@ class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInte
     /**
      * Handle an exception and convert it into a JSON-RPC error response.
      *
-     * @param ServerRequestInterface $request The server request that caused the exception.
-     * @param Throwable $exception The thrown exception.
+     * @param ServerRequestInterface $request   The server request that caused the exception.
+     * @param Throwable              $exception The thrown exception.
      *
      * @return ResponseInterface The JSON-RPC error response.
      */
@@ -114,8 +114,8 @@ class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInte
     /**
      * Collect the JSON-RPC request from the server request and exception.
      *
-     * @param ServerRequestInterface $request The incoming server request.
-     * @param Throwable $exception The exception that was thrown.
+     * @param ServerRequestInterface $request   The incoming server request.
+     * @param Throwable              $exception The exception that was thrown.
      *
      * @return JsonRpcRequest The constructed JSON-RPC request.
      */
@@ -142,8 +142,8 @@ class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInte
     /**
      * Collect an invalid JSON-RPC response based on the request and exception.
      *
-     * @param JsonRpcRequest $request The JSON-RPC request.
-     * @param Throwable $exception The exception that was thrown.
+     * @param JsonRpcRequest $request   The JSON-RPC request.
+     * @param Throwable      $exception The exception that was thrown.
      *
      * @return JsonRpcResponse The constructed invalid JSON-RPC response.
      */

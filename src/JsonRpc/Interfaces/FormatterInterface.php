@@ -12,14 +12,14 @@ use Throwable;
  * Outlines the methods required for formatting JSON-RPC responses.
  *
  * @package Bouledepate\JsonRpc\Interfaces
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 interface FormatterInterface
 {
     /**
      * Formats a successful JSON-RPC response.
      *
-     * @param JsonRpcRequest $request The original JSON-RPC request.
+     * @param JsonRpcRequest    $request  The original JSON-RPC request.
      * @param ResponseInterface $response The initial HTTP response object.
      *
      * @return ResponseInterface The formatted HTTP response compliant with JSON-RPC specifications.
@@ -29,9 +29,9 @@ interface FormatterInterface
     /**
      * Formats a response for an invalid JSON-RPC request, incorporating exception details.
      *
-     * @param JsonRpcRequest $request The original JSON-RPC request.
-     * @param ResponseInterface $response The initial HTTP response object.
-     * @param Throwable $exception The exception that caused the request to be invalid.
+     * @param JsonRpcRequest    $request   The original JSON-RPC request.
+     * @param ResponseInterface $response  The initial HTTP response object.
+     * @param Throwable         $exception The exception that caused the request to be invalid.
      *
      * @return ResponseInterface The formatted HTTP response indicating an invalid request.
      */

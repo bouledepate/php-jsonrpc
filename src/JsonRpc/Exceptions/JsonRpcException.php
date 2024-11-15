@@ -4,34 +4,32 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc\Exceptions;
 
+use Bouledepate\JsonRpc\Interfaces\ArrayOutputInterface;
 use Bouledepate\JsonRpc\Interfaces\ExceptionContentInterface;
 use Exception;
+use RuntimeException;
 
 /**
  * @package Bouledepate\JsonRpc\Exceptions
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 abstract class JsonRpcException extends Exception implements ExceptionContentInterface
 {
     /**
-     * Additional content for the exception.
-     *
-     * @var array|null
+     * @var mixed Additional content for the exception.
      */
-    protected ?array $content;
+    protected mixed $content = null;
 
     /**
-     * @param string $message The exception message.
-     * @param int $code The exception code.
-     * @param array $content Additional content for the exception.
-     * @param bool $rewrite Whether to overwrite existing content or merge.
+     * @param string         $message  The exception message.
+     * @param int            $code     The exception code.
+     * @param array          $content  Additional content for the exception.
      * @param Exception|null $previous Previous exception for exception chaining.
      */
     public function __construct(
         string $message,
         int $code,
-        array $content = [],
-        bool $rewrite = true,
+        mixed $content = null,
         ?Exception $previous = null
     ) {
         $this->content = $content;
@@ -43,7 +41,7 @@ abstract class JsonRpcException extends Exception implements ExceptionContentInt
      *
      * @param array $content The additional content.
      */
-    final public function setContent(array $content): void
+    final public function setContent(mixed $content): void
     {
         $this->content = $content;
     }
@@ -51,10 +49,18 @@ abstract class JsonRpcException extends Exception implements ExceptionContentInt
     /**
      * Retrieves the additional content for the exception.
      *
-     * @return array The additional content.
+     * @return mixed The additional content.
      */
-    final public function getContent(): array
+    final public function getContent(): mixed
     {
-        return $this->content ?? [];
+        if ($this->content instanceof ArrayOutputInterface) {
+            return $this->content->toArray();
+        }
+
+        if (is_object($this->content)) {
+            throw new RuntimeException('Object must implement the ArrayOutputInterface.');
+        }
+
+        return $this->content;
     }
 }

@@ -6,7 +6,7 @@ namespace Bouledepate\JsonRpc\Interfaces;
  * Defines a contract for classes that can represent their data as an array.
  *
  * @package Bouledepate\JsonRpc\Interfaces
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 interface ArrayOutputInterface
 {

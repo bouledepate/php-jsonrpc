@@ -11,7 +11,7 @@ use Bouledepate\JsonRpc\Model\Dataset;
  * Defines the validation mechanism for JSON-RPC requests.
  *
  * @package Bouledepate\JsonRpc\Interfaces
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 interface ValidatorInterface
 {

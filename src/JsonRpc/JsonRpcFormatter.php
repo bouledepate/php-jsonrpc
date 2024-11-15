@@ -17,7 +17,7 @@ use Throwable;
 
 /**
  * @package Bouledepate\JsonRpc
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 class JsonRpcFormatter implements FormatterInterface
 {
@@ -45,7 +45,7 @@ class JsonRpcFormatter implements FormatterInterface
     /**
      * Formats a successful JSON-RPC response.
      *
-     * @param JsonRpcRequest $request The original JSON-RPC request.
+     * @param JsonRpcRequest    $request  The original JSON-RPC request.
      * @param ResponseInterface $response The initial HTTP response object.
      *
      * @return ResponseInterface The formatted HTTP response compliant with JSON-RPC specifications.
@@ -61,9 +61,9 @@ class JsonRpcFormatter implements FormatterInterface
     /**
      * Formats a response for an invalid JSON-RPC request, incorporating exception details.
      *
-     * @param JsonRpcRequest $request The original JSON-RPC request.
-     * @param ResponseInterface $response The initial HTTP response object.
-     * @param Throwable $exception The exception that caused the request to be invalid.
+     * @param JsonRpcRequest    $request   The original JSON-RPC request.
+     * @param ResponseInterface $response  The initial HTTP response object.
+     * @param Throwable         $exception The exception that caused the request to be invalid.
      *
      * @return ResponseInterface The formatted HTTP response indicating an invalid request.
      */
@@ -85,7 +85,7 @@ class JsonRpcFormatter implements FormatterInterface
      *
      * @return array|null The decoded JSON content as an associative array, or null if empty.
      */
-    private function decodeResponseContent(ResponseInterface $response): ?array
+    private function decodeResponseContent(ResponseInterface $response): mixed
     {
         $rawContent = (string)$response->getBody();
         return $rawContent === '' ? null : json_decode($rawContent, true);
@@ -95,14 +95,14 @@ class JsonRpcFormatter implements FormatterInterface
      * Writes JSON-encoded data to the HTTP response body.
      *
      * @param ResponseInterface $response The HTTP response to write to.
-     * @param JsonRpcResponse $data The JSON-RPC response data to encode and write.
+     * @param JsonRpcResponse   $data     The JSON-RPC response data to encode and write.
      *
      * @return ResponseInterface The HTTP response with the JSON data written to its body.
      */
     private function writeJsonToResponse(ResponseInterface $response, JsonRpcResponse $data): ResponseInterface
     {
         $response->getBody()->rewind();
-        $response->getBody()->write(json_encode($data));
+        $response->getBody()->write(json_encode($data, flags: JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE));
 
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -110,8 +110,8 @@ class JsonRpcFormatter implements FormatterInterface
     /**
      * Determines the appropriate ID for the JSON-RPC response based on the request and exception.
      *
-     * @param JsonRpcRequest $request The original JSON-RPC request.
-     * @param Throwable $exception The exception that was thrown.
+     * @param JsonRpcRequest $request   The original JSON-RPC request.
+     * @param Throwable      $exception The exception that was thrown.
      *
      * @return string|null The ID to include in the JSON-RPC response, or null if not applicable.
      */

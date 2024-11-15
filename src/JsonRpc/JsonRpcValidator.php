@@ -10,7 +10,7 @@ use Bouledepate\JsonRpc\Model\Dataset;
 
 /**
  * @package Bouledepate\JsonRpc
- * @author Semyon Shmik <promtheus815@gmail.com>
+ * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 final class JsonRpcValidator implements ValidatorInterface
 {
@@ -58,7 +58,7 @@ final class JsonRpcValidator implements ValidatorInterface
      * Validates that all required properties are present in the dataset.
      *
      * @param Dataset $dataset The dataset to validate.
-     * @param array $errors The array to accumulate validation errors.
+     * @param array   $errors  The array to accumulate validation errors.
      *
      * @return void
      */
@@ -75,7 +75,7 @@ final class JsonRpcValidator implements ValidatorInterface
      * Validates the types of properties in the dataset.
      *
      * @param Dataset $dataset The dataset to validate.
-     * @param array $errors The array to accumulate validation errors.
+     * @param array   $errors  The array to accumulate validation errors.
      *
      * @return void
      */
@@ -101,7 +101,7 @@ final class JsonRpcValidator implements ValidatorInterface
      * Validates that the 'jsonrpc' property has the correct version.
      *
      * @param Dataset $dataset The dataset to validate.
-     * @param array $errors The array to accumulate validation errors.
+     * @param array   $errors  The array to accumulate validation errors.
      *
      * @return void
      */

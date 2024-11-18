@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc\Interfaces;
 
-use Bouledepate\JsonRpc\Exceptions\InvalidRequestException;
+use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Model\Dataset;
 
 /**

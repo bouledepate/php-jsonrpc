@@ -7,9 +7,9 @@ namespace Bouledepate\JsonRpc;
 use Bouledepate\JsonRpc\Contract\ErrorJsonRpcResponse;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Bouledepate\JsonRpc\Contract\JsonRpcResponse;
-use Bouledepate\JsonRpc\Exceptions\InvalidRequestException;
-use Bouledepate\JsonRpc\Exceptions\MethodNotFoundException;
-use Bouledepate\JsonRpc\Exceptions\ParseErrorException;
+use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
+use Bouledepate\JsonRpc\Exceptions\Core\MethodNotFoundException;
+use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
 use Bouledepate\JsonRpc\Interfaces\CustomErrorHandlerInterface;
 use Bouledepate\JsonRpc\Interfaces\FormatterInterface;
 use Bouledepate\JsonRpc\Model\Dataset;
@@ -19,8 +19,8 @@ use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 use Throwable;
 
 /**

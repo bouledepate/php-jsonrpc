@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc\Exceptions;
+namespace Bouledepate\JsonRpc\Exceptions\Core;
 
+use Bouledepate\JsonRpc\Exceptions\JsonRpcException;
 use Exception;
 
 /**
- * @package Bouledepate\JsonRpc\Exceptions
+ * @package Bouledepate\JsonRpc\Exceptions\Core
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-final class InvalidParamsException extends JsonRpcException
+final class ParseErrorException extends JsonRpcException
 {
     /**
      * @var mixed|string[] Additional content for the exception.
      */
     protected mixed $content = [
-        'Invalid method parameter(s)'
+        'Unable to parse request: Content-Type must be `application/json` and body must contain valid JSON'
     ];
 
     /**
@@ -32,8 +33,8 @@ final class InvalidParamsException extends JsonRpcException
         $this->content = $rewrite ? $content : array_merge($this->content, $content);
 
         parent::__construct(
-            message: 'Invalid params',
-            code: -32602,
+            message: 'Parse error',
+            code: -32700,
             content: $content,
             previous: $previous
         );

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc\Model;
 
-use Bouledepate\JsonRpc\Exceptions\ParseErrorException;
+use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -21,8 +21,6 @@ final readonly class Dataset
     private array $content;
 
     /**
-     * Dataset constructor.
-     *
      * Parses the JSON body of the HTTP request and stores the result.
      *
      * @param ServerRequestInterface $request The incoming HTTP request.
@@ -48,5 +46,18 @@ final readonly class Dataset
     public function getContent(): array
     {
         return $this->content;
+    }
+
+    /**
+     * Checks whether the content of this dataset represents a batch request.
+     *
+     * A batch request is defined as an array of JSON-RPC request objects
+     * where the array is numerically indexed (i.e., a JSON-RPC batch format).
+     *
+     * @return bool True if the content is a batch request; false otherwise.
+     */
+    public function isBatchRequest(): bool
+    {
+        return array_is_list($this->getContent());
     }
 }

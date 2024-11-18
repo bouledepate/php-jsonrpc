@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc\Exceptions;
+namespace Bouledepate\JsonRpc\Exceptions\Core;
 
+use Bouledepate\JsonRpc\Exceptions\JsonRpcException;
 use Exception;
 
 /**
- * @package Bouledepate\JsonRpc\Exceptions
+ * @package Bouledepate\JsonRpc\Exceptions\Core
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-final class ServerErrorException extends JsonRpcException
+final class InvalidParamsException extends JsonRpcException
 {
     /**
      * @var mixed|string[] Additional content for the exception.
      */
     protected mixed $content = [
-        'A server error occurred. This is an implementation-defined server error'
+        'Invalid method parameter(s)'
     ];
 
     /**
@@ -32,8 +33,8 @@ final class ServerErrorException extends JsonRpcException
         $this->content = $rewrite ? $content : array_merge($this->content, $content);
 
         parent::__construct(
-            message: 'Server error',
-            code: -32000,
+            message: 'Invalid params',
+            code: -32602,
             content: $content,
             previous: $previous
         );

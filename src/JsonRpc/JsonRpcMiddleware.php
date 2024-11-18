@@ -5,17 +5,11 @@ declare(strict_types=1);
 namespace Bouledepate\JsonRpc;
 
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
-use Bouledepate\JsonRpc\Exceptions\InvalidRequestException;
-use Bouledepate\JsonRpc\Exceptions\MethodNotFoundException;
-use Bouledepate\JsonRpc\Exceptions\ParseErrorException;
-use Bouledepate\JsonRpc\Interfaces\FormatterInterface;
-use Bouledepate\JsonRpc\Interfaces\MethodProviderInterface;
-use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
+use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
+use Bouledepate\JsonRpc\Exceptions\Core\MethodNotFoundException;
+use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
+use Bouledepate\JsonRpc\Exceptions\PayloadTooLargeException;
 use Bouledepate\JsonRpc\Model\Dataset;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -24,46 +18,8 @@ use Psr\Http\Server\RequestHandlerInterface;
  * @package Bouledepate\JsonRpc
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-class JsonRpcMiddleware extends DefaultMiddleware
+class JsonRpcMiddleware extends JsonRpcBaseMiddleware
 {
-    /**
-     * @var FormatterInterface The formatter for JSON-RPC responses.
-     */
-    protected FormatterInterface $formatter;
-
-    /**
-     * @var ValidatorInterface The validator for JSON-RPC requests.
-     */
-    protected ValidatorInterface $validator;
-
-    /**
-     * @var MethodProviderInterface|null The provider to check for method existence.
-     */
-    protected ?MethodProviderInterface $methodProvider;
-
-    /**
-     * @var ResponseFactoryInterface The factory to create HTTP responses.
-     */
-    protected ResponseFactoryInterface $responseFactory;
-
-    /**
-     * Initializes the middleware with necessary dependencies from the container.
-     *
-     * @param ContainerInterface $container The dependency injection container.
-     *
-     * @throws NotFoundExceptionInterface If a required service is not found in the container.
-     * @throws ContainerExceptionInterface If there is an error retrieving a service from the container.
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        parent::__construct($container);
-
-        $this->validator = new JsonRpcValidator();
-        $this->responseFactory = $this->getResponseFactory();
-        $this->methodProvider = $this->getContainerInstance(MethodProviderInterface::class);
-        $this->formatter = $this->getContainerInstance(FormatterInterface::class, new JsonRpcFormatter());
-    }
-
     /**
      * Processes an incoming server request and produces a response.
      *
@@ -73,12 +29,20 @@ class JsonRpcMiddleware extends DefaultMiddleware
      * @return ResponseInterface The HTTP response.
      *
      * @throws ParseErrorException If there is a parsing error in the request.
-     * @throws InvalidRequestException If the request is invalid.
+     * @throws InvalidRequestException If the request is invalid or batch request is recognized.
      * @throws MethodNotFoundException If the requested method does not exist.
+     * @throws PayloadTooLargeException If the payload size exceeds the configured limit.
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $this->validatePayloadSize($request);
+
         $dataset = new Dataset($request);
+
+        if ($dataset->isBatchRequest()) {
+            throw new InvalidRequestException(content: ['Batch requests are not supported']);
+        }
+
         $this->validator->validate($dataset);
 
         $jrpcRequest = new JsonRpcRequest(
@@ -88,23 +52,11 @@ class JsonRpcMiddleware extends DefaultMiddleware
             isNotification: !$dataset->hasProperty('id')
         );
 
-        if (!$this->isMethodAvailable($jrpcRequest)) {
-            throw new MethodNotFoundException();
+        if ($this->isMethodAvailable($jrpcRequest)) {
+            return $this->processRequest($request, $handler, $jrpcRequest);
         }
 
-        return $this->processRequest($request, $handler, $jrpcRequest);
-    }
-
-    /**
-     * Checks if the requested method is available for invocation.
-     *
-     * @param JsonRpcRequest $jrpcRequest The JSON-RPC request containing the method name.
-     *
-     * @return bool True if the method exists and is available; otherwise, false.
-     */
-    protected function isMethodAvailable(JsonRpcRequest $jrpcRequest): bool
-    {
-        return $this->methodProvider && $this->methodProvider->exist($jrpcRequest->getMethod());
+        throw new MethodNotFoundException();
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc;
 
-use Bouledepate\JsonRpc\Exceptions\InvalidRequestException;
+use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
 use Bouledepate\JsonRpc\Model\Dataset;
 
@@ -21,7 +21,7 @@ final class JsonRpcValidator implements ValidatorInterface
         'jsonrpc' => ['string'],
         'method' => ['string'],
         'params' => ['array'],
-        'id' => ['string', 'int']
+        'id' => ['string', 'integer']
     ];
 
     /**

@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc\Exceptions;
+namespace Bouledepate\JsonRpc\Exceptions\Core;
 
+use Bouledepate\JsonRpc\Exceptions\JsonRpcException;
 use Exception;
 
 /**
- * @package Bouledepate\JsonRpc\Exceptions
+ * @package Bouledepate\JsonRpc\Exceptions\Core
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-final class InvalidRequestException extends JsonRpcException
+final class MethodNotFoundException extends JsonRpcException
 {
     /**
      * @var mixed|string[] Additional content for the exception.
      */
     protected mixed $content = [
-        'The JSON sent is not a valid Request object'
+        'details' => 'The method does not exist or is not available'
     ];
 
     /**
@@ -32,8 +33,8 @@ final class InvalidRequestException extends JsonRpcException
         $this->content = $rewrite ? $content : array_merge($this->content, $content);
 
         parent::__construct(
-            message: 'Invalid Request',
-            code: -32600,
+            message: 'Method not found',
+            code: -32601,
             content: $content,
             previous: $previous
         );

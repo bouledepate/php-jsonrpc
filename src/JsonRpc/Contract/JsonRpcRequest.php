@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc\Contract;
 
-use Bouledepate\JsonRpc\Exceptions\MethodNotFoundException;
+use Bouledepate\JsonRpc\Exceptions\Core\MethodNotFoundException;
 use Bouledepate\JsonRpc\Interfaces\ArrayOutputInterface;
 use Bouledepate\JsonRpc\Model\Method;
 use Bouledepate\JsonRpc\Model\Params;

@@ -19,8 +19,7 @@
     "require-dev" : {},
     "autoload" : {
         "psr-4" : {
-            "Bouledepate\\JsonRpc\\" : "src/JsonRpc/",
-            "Bouledepate\\JsonRpc\\Tests\\" : "tests/JsonRpc/"
+            "Bouledepate\\JsonRpc\\" : "JsonRpc/"
         }
     }
 }

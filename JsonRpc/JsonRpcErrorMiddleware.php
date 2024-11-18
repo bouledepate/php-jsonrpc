@@ -10,8 +10,9 @@ use Bouledepate\JsonRpc\Contract\JsonRpcResponse;
 use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Exceptions\Core\MethodNotFoundException;
 use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
+use Bouledepate\JsonRpc\Formatter\FormatterInterface;
+use Bouledepate\JsonRpc\Formatter\ResponseFormatter;
 use Bouledepate\JsonRpc\Interfaces\CustomErrorHandlerInterface;
-use Bouledepate\JsonRpc\Interfaces\FormatterInterface;
 use Bouledepate\JsonRpc\Model\Dataset;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -64,7 +65,7 @@ class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInte
 
         $this->responseFactory = $this->getResponseFactory();
         $this->errorHandler = $this->getContainerInstance(CustomErrorHandlerInterface::class);
-        $this->formatter = $this->getContainerInstance(FormatterInterface::class, new JsonRpcFormatter());
+        $this->formatter = $this->getContainerInstance(FormatterInterface::class, new ResponseFormatter());
     }
 
     /**

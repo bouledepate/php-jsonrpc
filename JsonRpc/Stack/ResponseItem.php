@@ -7,7 +7,7 @@ namespace Bouledepate\JsonRpc\Stack;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Bouledepate\JsonRpc\Contract\JsonRpcResponse;
 
-class JsonRpcResponseItem
+class ResponseItem
 {
     private JsonRpcRequest $request;
     private JsonRpcResponse $response;

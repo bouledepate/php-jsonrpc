@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc\Interfaces;
+namespace Bouledepate\JsonRpc\Validator;
 
 use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Model\Dataset;
@@ -10,7 +10,7 @@ use Bouledepate\JsonRpc\Model\Dataset;
 /**
  * Defines the validation mechanism for JSON-RPC requests.
  *
- * @package Bouledepate\JsonRpc\Interfaces
+ * @package Bouledepate\JsonRpc\Validator
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 interface ValidatorInterface

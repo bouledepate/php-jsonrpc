@@ -2,17 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc;
+namespace Bouledepate\JsonRpc\Validator;
 
 use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
-use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
 use Bouledepate\JsonRpc\Model\Dataset;
 
 /**
- * @package Bouledepate\JsonRpc
+ * @package Bouledepate\JsonRpc\Validator
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-final class JsonRpcValidator implements ValidatorInterface
+final class RequestValidator implements ValidatorInterface
 {
     /**
      * @var array<string, array<string>> Defines the expected types for each JSON-RPC property.

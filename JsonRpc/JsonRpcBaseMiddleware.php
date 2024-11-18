@@ -7,10 +7,12 @@ namespace Bouledepate\JsonRpc;
 use Bouledepate\JsonRpc\Config\DefaultJsonRpcOptions;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Bouledepate\JsonRpc\Exceptions\PayloadTooLargeException;
-use Bouledepate\JsonRpc\Interfaces\FormatterInterface;
+use Bouledepate\JsonRpc\Formatter\FormatterInterface;
+use Bouledepate\JsonRpc\Formatter\ResponseFormatter;
 use Bouledepate\JsonRpc\Interfaces\MethodProviderInterface;
 use Bouledepate\JsonRpc\Interfaces\OptionsInterface;
-use Bouledepate\JsonRpc\Interfaces\ValidatorInterface;
+use Bouledepate\JsonRpc\Validator\RequestValidator;
+use Bouledepate\JsonRpc\Validator\ValidatorInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -89,10 +91,10 @@ abstract class JsonRpcBaseMiddleware extends DefaultMiddleware
 
         self::$middlewareRegistered = true;
 
-        $this->validator = new JsonRpcValidator();
+        $this->validator = new RequestValidator();
         $this->responseFactory = $this->getResponseFactory();
         $this->methodProvider = $this->getContainerInstance(MethodProviderInterface::class);
-        $this->formatter = $this->getContainerInstance(FormatterInterface::class, new JsonRpcFormatter());
+        $this->formatter = $this->getContainerInstance(FormatterInterface::class, new ResponseFormatter());
         $this->options = $this->getContainerInstance(OptionsInterface::class, new DefaultJsonRpcOptions());
     }
 

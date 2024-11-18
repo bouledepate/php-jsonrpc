@@ -7,13 +7,13 @@ namespace Bouledepate\JsonRpc\Stack;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Bouledepate\JsonRpc\Contract\JsonRpcResponse;
 
-final class JsonRpcResponseStack
+final class ResponseStack
 {
     private array $stack = [];
 
     public function push(JsonRpcRequest $request, JsonRpcResponse $response): void
     {
-        $this->stack[] = new JsonRpcResponseItem($request, $response);
+        $this->stack[] = new ResponseItem($request, $response);
     }
 
     public function flush(): array
@@ -24,7 +24,7 @@ final class JsonRpcResponseStack
         return $data;
     }
 
-    public function pop(): ?JsonRpcResponseItem
+    public function pop(): ?ResponseItem
     {
         $stack = $this->stack;
 

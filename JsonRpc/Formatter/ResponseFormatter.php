@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc;
+namespace Bouledepate\JsonRpc\Formatter;
 
 use Bouledepate\JsonRpc\Contract\ErrorJsonRpcResponse;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
@@ -11,15 +11,14 @@ use Bouledepate\JsonRpc\Contract\SuccessJsonRpcResponse;
 use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
 use Bouledepate\JsonRpc\Interfaces\ExceptionContentInterface;
-use Bouledepate\JsonRpc\Interfaces\FormatterInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
 /**
- * @package Bouledepate\JsonRpc
+ * @package Bouledepate\JsonRpc\Formatter
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-class JsonRpcFormatter implements FormatterInterface
+class ResponseFormatter implements FormatterInterface
 {
     /**
      * Formats an error based on the provided exception.

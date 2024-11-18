@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Bouledepate\JsonRpc\Interfaces;
+namespace Bouledepate\JsonRpc\Formatter;
 
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Psr\Http\Message\ResponseInterface;
@@ -11,7 +11,7 @@ use Throwable;
 /**
  * Outlines the methods required for formatting JSON-RPC responses.
  *
- * @package Bouledepate\JsonRpc\Interfaces
+ * @package Bouledepate\JsonRpc\Formatter
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
 interface FormatterInterface

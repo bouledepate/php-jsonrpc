@@ -12,8 +12,8 @@ use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
 use Bouledepate\JsonRpc\Exceptions\PayloadTooLargeException;
 use Bouledepate\JsonRpc\Exceptions\TooManyRequestsException;
 use Bouledepate\JsonRpc\Model\Dataset;
-use Bouledepate\JsonRpc\Stack\JsonRpcResponseItem;
-use Bouledepate\JsonRpc\Stack\JsonRpcResponseStack;
+use Bouledepate\JsonRpc\Stack\ResponseItem;
+use Bouledepate\JsonRpc\Stack\ResponseStack;
 
 use GuzzleHttp\Psr7\Stream;
 
@@ -35,9 +35,9 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     /**
      * The stack for storing request-response pairs.
      *
-     * @var JsonRpcResponseStack
+     * @var ResponseStack
      */
-    private readonly JsonRpcResponseStack $stack;
+    private readonly ResponseStack $stack;
 
     /**
      * Initializes the middleware and creates a response stack.
@@ -50,7 +50,7 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
-        $this->stack = new JsonRpcResponseStack();
+        $this->stack = new ResponseStack();
     }
 
     /**
@@ -247,7 +247,7 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
      */
     private function createMultiResponse(): ResponseInterface
     {
-        $responseBody = array_filter(array_map(function (JsonRpcResponseItem $item) {
+        $responseBody = array_filter(array_map(function (ResponseItem $item) {
             return $item->isNotificationResponse() ? null : $item->getResponse()->toArray();
         }, $this->stack->all()));
 

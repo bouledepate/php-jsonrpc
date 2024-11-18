@@ -155,9 +155,7 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     private function prepareRequest(ServerRequestInterface $request, array $requestData): ServerRequestInterface
     {
         $localRequest = clone $request;
-        $newBody = Stream::create(fopen('php://temp', 'r+'));
-        $newBody->write(json_encode($requestData));
-        $newBody->rewind();
+        $newBody = Stream::create(json_encode($requestData));
 
         return $localRequest->withBody($newBody);
     }

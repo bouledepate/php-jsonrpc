@@ -14,13 +14,16 @@ use Bouledepate\JsonRpc\Exceptions\TooManyRequestsException;
 use Bouledepate\JsonRpc\Model\Dataset;
 use Bouledepate\JsonRpc\Stack\JsonRpcResponseItem;
 use Bouledepate\JsonRpc\Stack\JsonRpcResponseStack;
-use Nyholm\Psr7\Stream;
+
+use GuzzleHttp\Psr7\Stream;
+
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+
 use Throwable;
 
 /**
@@ -155,7 +158,16 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     private function prepareRequest(ServerRequestInterface $request, array $requestData): ServerRequestInterface
     {
         $localRequest = clone $request;
-        $newBody = Stream::create(json_encode($requestData));
+
+        $stream = fopen('php://temp', 'r+');
+        if ($stream === false) {
+            throw new \RuntimeException('Failed to open temporary stream.');
+        }
+
+        fwrite($stream, json_encode($requestData));
+        rewind($stream);
+
+        $newBody = new Stream($stream);
 
         return $localRequest->withBody($newBody);
     }

@@ -73,7 +73,7 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         $dataset = new Dataset($request);
 
         if (!$dataset->isBatchRequest()) {
-            $this->processSingleRequest($request, $dataset->getContent(), $handler);
+            $this->processSingleRequest($request, $dataset->getData(), $handler);
             return $this->createSingleResponse();
         }
 
@@ -94,7 +94,7 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
      */
     private function processBatchRequests(Dataset $dataset, ServerRequestInterface $request, RequestHandlerInterface $handler): void
     {
-        foreach ($dataset->getContent() as $requestData) {
+        foreach ($dataset->getData() as $requestData) {
             $this->processSingleRequest($request, $requestData, $handler);
         }
     }
@@ -293,9 +293,9 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     private function validateBatchSize(Dataset $dataset): void
     {
         $batchSize = $this->options->getBatchSize();
-        if (count($dataset->getContent()) > $batchSize) {
+        if (count($dataset->getData()) > $batchSize) {
             throw new TooManyRequestsException(content: [
-                'actual_count' => count($dataset->getContent()),
+                'actual_count' => count($dataset->getData()),
                 'max_requests' => $batchSize
             ]);
         }

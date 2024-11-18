@@ -43,7 +43,7 @@ final readonly class Dataset
      *
      * @return array An associative array containing the JSON-RPC request data.
      */
-    public function getContent(): array
+    public function getData(): array
     {
         return $this->content;
     }
@@ -58,6 +58,6 @@ final readonly class Dataset
      */
     public function isBatchRequest(): bool
     {
-        return array_is_list($this->getContent());
+        return array_is_list($this->getData());
     }
 }

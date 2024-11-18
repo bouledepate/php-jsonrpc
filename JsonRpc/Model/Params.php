@@ -30,11 +30,11 @@ readonly class Params
     }
 
     /**
-     * Retrieves the content of the parameters.
+     * Retrieves the data of the parameters.
      *
-     * @return array The parameters content.
+     * @return array The parameters.
      */
-    final public function getContent(): array
+    final public function getData(): array
     {
         return $this->content;
     }

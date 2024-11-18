@@ -140,7 +140,7 @@ readonly class JsonRpcRequest implements ArrayOutputInterface, JsonSerializable
         ];
 
         if ($this->params !== null) {
-            $result['params'] = $this->params->getContent();
+            $result['params'] = $this->params->getData();
         }
 
         if ($this->id !== null) {

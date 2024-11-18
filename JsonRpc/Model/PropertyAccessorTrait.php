@@ -15,7 +15,7 @@ trait PropertyAccessorTrait
      *
      * @return mixed The content to be accessed.
      */
-    abstract public function getContent(): mixed;
+    abstract public function getData(): mixed;
 
     /**
      * Retrieves a nested property value by a dot-notated key.
@@ -27,13 +27,16 @@ trait PropertyAccessorTrait
      */
     public function getProperty(string $property, mixed $default = null): mixed
     {
-        $content = $this->getContent();
+        $content = $this->getData();
 
         if (empty($content)) {
             return $default;
         }
 
-        $subKeys = explode('.', $property);
+        $subKeys = array_map(
+            callback: fn(string $part) => str_replace('\\.', '.', $part),
+            array: preg_split('/(?<!\\\\)\./', $property)
+        );
 
         foreach ($subKeys as $subKey) {
             if (is_array($content) && array_key_exists($subKey, $content)) {
@@ -56,7 +59,7 @@ trait PropertyAccessorTrait
      */
     public function getPropertyByIndex(int $index, mixed $default = null): mixed
     {
-        $content = $this->getContent();
+        $content = $this->getData();
 
         return is_array($content) && array_key_exists($index, $content) ? $content[$index] : $default;
     }
@@ -70,13 +73,16 @@ trait PropertyAccessorTrait
      */
     public function hasProperty(string $property): bool
     {
-        $content = $this->getContent();
+        $content = $this->getData();
 
         if (empty($content)) {
             return false;
         }
 
-        $subKeys = explode('.', $property);
+        $subKeys = array_map(
+            callback: fn(string $part) => str_replace('\\.', '.', $part),
+            array: preg_split('/(?<!\\\\)\./', $property)
+        );
 
         foreach ($subKeys as $subKey) {
             if (is_array($content) && array_key_exists($subKey, $content)) {

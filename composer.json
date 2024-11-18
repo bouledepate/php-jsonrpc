@@ -2,7 +2,13 @@
   "name": "bouledepate/php-jsonrpc",
   "type": "library",
   "description": "Lightweight JSON-RPC Middleware for PHP Applications",
-  "keywords": ["framework","micro","api","router"],
+  "keywords": [
+    "json-rpc",
+    "php",
+    "middleware",
+    "api"
+  ],
+  "license": "MIT",
   "authors": [
     {
       "name": "Semyon Shmik",
@@ -23,5 +29,8 @@
     "psr-4": {
       "Bouledepate\\JsonRpc\\": "JsonRpc/"
     }
+  },
+  "config": {
+    "sort-packages": true
   }
 }

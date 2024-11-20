@@ -305,10 +305,11 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     private function validateBatchSize(Dataset $dataset): void
     {
         $batchSize = $this->options->getBatchSize();
+
         if (count($dataset->getData()) > $batchSize) {
             throw new TooManyRequestsException(content: [
                 'actual_count' => count($dataset->getData()),
-                'max_requests' => $batchSize
+                'allowed_count' => $batchSize
             ]);
         }
     }

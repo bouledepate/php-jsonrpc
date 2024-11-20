@@ -112,9 +112,9 @@ class ResponseFormatter implements FormatterInterface
      * @param JsonRpcRequest $request   The original JSON-RPC request.
      * @param Throwable      $exception The exception that was thrown.
      *
-     * @return string|null The ID to include in the JSON-RPC response, or null if not applicable.
+     * @return string|int|null The ID to include in the JSON-RPC response, or null if not applicable.
      */
-    private function getResponseId(JsonRpcRequest $request, Throwable $exception): ?string
+    private function getResponseId(JsonRpcRequest $request, Throwable $exception): string|int|null
     {
         if ($exception instanceof ParseErrorException || $exception instanceof InvalidRequestException) {
             return null;

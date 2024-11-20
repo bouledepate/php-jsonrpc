@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc;
 
-use Bouledepate\JsonRpc\Config\DefaultJsonRpcOptions;
 use Bouledepate\JsonRpc\Contract\JsonRpcRequest;
 use Bouledepate\JsonRpc\Exceptions\PayloadTooLargeException;
 use Bouledepate\JsonRpc\Formatter\FormatterInterface;
 use Bouledepate\JsonRpc\Formatter\ResponseFormatter;
 use Bouledepate\JsonRpc\Interfaces\MethodProviderInterface;
-use Bouledepate\JsonRpc\Interfaces\OptionsInterface;
 use Bouledepate\JsonRpc\Validator\RequestValidator;
 use Bouledepate\JsonRpc\Validator\ValidatorInterface;
 use Psr\Container\ContainerExceptionInterface;
@@ -62,13 +60,6 @@ abstract class JsonRpcBaseMiddleware extends DefaultMiddleware
     protected ResponseFactoryInterface $responseFactory;
 
     /**
-     * Options for configuring batch processing.
-     *
-     * @var OptionsInterface
-     */
-    protected readonly OptionsInterface $options;
-
-    /**
      * Initializes the middleware with dependencies provided by a container.
      *
      * Ensures that only one instance of a JsonRpc middleware can be registered
@@ -95,7 +86,6 @@ abstract class JsonRpcBaseMiddleware extends DefaultMiddleware
         $this->responseFactory = $this->getResponseFactory();
         $this->methodProvider = $this->getContainerInstance(MethodProviderInterface::class);
         $this->formatter = $this->getContainerInstance(FormatterInterface::class, new ResponseFormatter());
-        $this->options = $this->getContainerInstance(OptionsInterface::class, new DefaultJsonRpcOptions());
     }
 
     /**
@@ -123,13 +113,13 @@ abstract class JsonRpcBaseMiddleware extends DefaultMiddleware
      */
     protected function validatePayloadSize(ServerRequestInterface $request): void
     {
-        $payloadSize = $this->options->getBatchPayloadSize();
+        $payloadSize = $this->options->getPayloadSize();
         $actualPayloadSize = strlen($request->getBody()->getContents());
 
         if ($actualPayloadSize > $payloadSize) {
             throw new PayloadTooLargeException(content: [
-                'actual_size' => $actualPayloadSize,
-                'max_payload_size' => $payloadSize
+                'request_payload' => $actualPayloadSize,
+                'allowed_payload' => $payloadSize
             ]);
         }
     }

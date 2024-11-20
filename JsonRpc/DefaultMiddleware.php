@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc;
 
+use Bouledepate\JsonRpc\Config\DefaultJsonRpcOptions;
+use Bouledepate\JsonRpc\Interfaces\OptionsInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -17,8 +19,20 @@ use RuntimeException;
  */
 abstract class DefaultMiddleware implements MiddlewareInterface
 {
+    /**
+     * Options for configuring JSON-RPC processing.
+     *
+     * @var OptionsInterface
+     */
+    protected readonly OptionsInterface $options;
+
+    /**
+     * @throws NotFoundExceptionInterface If a required service is not found in the container.
+     * @throws ContainerExceptionInterface If there is an error retrieving a service from the container.
+     */
     public function __construct(protected readonly ContainerInterface $container)
     {
+        $this->options = $this->getContainerInstance(OptionsInterface::class, new DefaultJsonRpcOptions());
     }
 
     /**

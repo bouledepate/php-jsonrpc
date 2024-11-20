@@ -11,12 +11,12 @@ namespace Bouledepate\JsonRpc\Exceptions;
 final class PayloadTooLargeException extends JsonRpcException
 {
     /**
-     * @param array $content Additional data related to the exception, such as the maximum allowed batch size.
+     * @param array $content Additional data related to the exception, such as the maximum allowed request size.
      */
     public function __construct(array $content)
     {
         parent::__construct(
-            message: 'Batch payload size exceeds limit',
+            message: 'Request payload size exceeds limit',
             code: -32603,
             content: $content
         );

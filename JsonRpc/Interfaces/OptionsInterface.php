@@ -26,5 +26,12 @@ interface OptionsInterface
      *
      * @return int The maximum payload size in bytes.
      */
-    public function getBatchPayloadSize(): int;
+    public function getPayloadSize(): int;
+
+    /**
+     * Retrieves the http status code for error handling.
+     *
+     * @return int HTTP status code
+     */
+    public function getErrorStatusCode(): int;
 }

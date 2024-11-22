@@ -10,7 +10,7 @@ use Bouledepate\JsonRpc\Contract\JsonRpcResponse;
 use Bouledepate\JsonRpc\Contract\SuccessJsonRpcResponse;
 use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
-use Bouledepate\JsonRpc\Interfaces\ExceptionContentInterface;
+use Bouledepate\JsonRpc\Interfaces\ContentInterface;
 use Psr\Http\Message\ResponseInterface;
 use Throwable;
 
@@ -34,7 +34,7 @@ class ResponseFormatter implements FormatterInterface
             'message' => $exception->getMessage(),
         ];
 
-        if ($exception instanceof ExceptionContentInterface) {
+        if ($exception instanceof ContentInterface) {
             $content['data'] = $exception->getContent();
         }
 

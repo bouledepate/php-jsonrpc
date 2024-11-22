@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Bouledepate\JsonRpc\Exceptions;
 
 use Bouledepate\JsonRpc\Interfaces\ArrayOutputInterface;
-use Bouledepate\JsonRpc\Interfaces\ExceptionContentInterface;
+use Bouledepate\JsonRpc\Interfaces\ContentInterface;
 use Exception;
 use RuntimeException;
 
@@ -13,7 +13,7 @@ use RuntimeException;
  * @package Bouledepate\JsonRpc\Exceptions
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-abstract class JsonRpcException extends Exception implements ExceptionContentInterface
+abstract class JsonRpc extends Exception implements ContentInterface
 {
     /**
      * @var mixed Additional content for the exception.

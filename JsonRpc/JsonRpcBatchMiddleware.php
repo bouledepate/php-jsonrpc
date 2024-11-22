@@ -72,7 +72,6 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->validatePayloadSize($request);
-
         $dataset = new Dataset($request);
 
         if (!$dataset->isBatchRequest()) {

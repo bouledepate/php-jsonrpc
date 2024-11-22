@@ -9,7 +9,7 @@ use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
 use Bouledepate\JsonRpc\Formatter\FormatterInterface;
 use Bouledepate\JsonRpc\Formatter\ResponseFormatter;
-use Bouledepate\JsonRpc\Interfaces\ExceptionContentInterface;
+use Bouledepate\JsonRpc\Interfaces\ContentInterface;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -37,7 +37,7 @@ final class ResponseFormatterTest extends TestCase
 
     public function testFormatErrorWhichImplementsContentInterface(): void
     {
-        $exception = new class extends Exception implements ExceptionContentInterface {
+        $exception = new class extends Exception implements ContentInterface {
             public function getContent(): array
             {
                 return ['test', 'key'];

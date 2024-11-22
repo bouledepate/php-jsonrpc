@@ -10,7 +10,7 @@ use Bouledepate\JsonRpc\Exceptions\Core\InvalidRequestException;
 use Bouledepate\JsonRpc\Exceptions\Core\MethodNotFoundException;
 use Bouledepate\JsonRpc\Exceptions\Core\ParseErrorException;
 use Bouledepate\JsonRpc\Exceptions\Core\ServerErrorException;
-use Bouledepate\JsonRpc\Exceptions\JsonRpcException;
+use Bouledepate\JsonRpc\Exceptions\JsonRpc;
 use PHPUnit\Framework\TestCase;
 
 final class CoreExceptionsTest extends TestCase
@@ -18,7 +18,7 @@ final class CoreExceptionsTest extends TestCase
     public function testInternalError(): void
     {
         $exception = new InternalErrorException();
-        $this->assertInstanceOf(JsonRpcException::class, $exception);
+        $this->assertInstanceOf(JsonRpc::class, $exception);
         $this->assertEquals(-32603, $exception->getCode());
         $this->assertEquals('Internal error', $exception->getMessage());
     }
@@ -26,7 +26,7 @@ final class CoreExceptionsTest extends TestCase
     public function testInvalidParams(): void
     {
         $exception = new InvalidParamsException();
-        $this->assertInstanceOf(JsonRpcException::class, $exception);
+        $this->assertInstanceOf(JsonRpc::class, $exception);
         $this->assertEquals(-32602, $exception->getCode());
         $this->assertEquals('Invalid params', $exception->getMessage());
     }
@@ -34,7 +34,7 @@ final class CoreExceptionsTest extends TestCase
     public function testInvalidRequest(): void
     {
         $exception = new InvalidRequestException();
-        $this->assertInstanceOf(JsonRpcException::class, $exception);
+        $this->assertInstanceOf(JsonRpc::class, $exception);
         $this->assertEquals(-32600, $exception->getCode());
         $this->assertEquals('Invalid Request', $exception->getMessage());
     }
@@ -42,7 +42,7 @@ final class CoreExceptionsTest extends TestCase
     public function testMethodNotFound(): void
     {
         $exception = new MethodNotFoundException();
-        $this->assertInstanceOf(JsonRpcException::class, $exception);
+        $this->assertInstanceOf(JsonRpc::class, $exception);
         $this->assertEquals(-32601, $exception->getCode());
         $this->assertEquals('Method not found', $exception->getMessage());
     }
@@ -50,7 +50,7 @@ final class CoreExceptionsTest extends TestCase
     public function testParseError(): void
     {
         $exception = new ParseErrorException();
-        $this->assertInstanceOf(JsonRpcException::class, $exception);
+        $this->assertInstanceOf(JsonRpc::class, $exception);
         $this->assertEquals(-32700, $exception->getCode());
         $this->assertEquals('Parse error', $exception->getMessage());
     }
@@ -58,7 +58,7 @@ final class CoreExceptionsTest extends TestCase
     public function testServerError(): void
     {
         $exception = new ServerErrorException();
-        $this->assertInstanceOf(JsonRpcException::class, $exception);
+        $this->assertInstanceOf(JsonRpc::class, $exception);
         $this->assertEquals(-32000, $exception->getCode());
         $this->assertEquals('Server error', $exception->getMessage());
     }

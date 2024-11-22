@@ -31,7 +31,7 @@ class DefaultJsonRpcOptions implements OptionsInterface
      *
      * @return int The maximum payload size in bytes. Default: 1 MB.
      */
-    public function getBatchPayloadSize(): int
+    public function getPayloadSize(): int
     {
         return 1024 * 1024;
     }

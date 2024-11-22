@@ -102,7 +102,7 @@ class JsonRpcErrorMiddleware extends DefaultMiddleware implements MiddlewareInte
             return $this->responseFactory->createResponse(204);
         }
 
-        $response = $this->responseFactory->createResponse(code: $this->options->getErrorStatusCode());
+        $response = $this->responseFactory->createResponse(code: 400);
         $jrpcResponse = $this->collectInvalidResponse($jrpcRequest, $exception);
 
         if ($this->errorHandler !== null) {

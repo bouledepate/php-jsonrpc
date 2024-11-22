@@ -8,7 +8,7 @@ namespace Bouledepate\JsonRpc\Exceptions;
  * @package Bouledepate\JsonRpc\Exceptions
  * @author  Semyon Shmik <promtheus815@gmail.com>
  */
-final class PayloadTooLargeException extends JsonRpcException
+final class PayloadTooLargeException extends JsonRpc
 {
     /**
      * @param array $content Additional data related to the exception, such as the maximum allowed request size.

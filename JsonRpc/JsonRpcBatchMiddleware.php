@@ -32,51 +32,21 @@ use Throwable;
  */
 class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
 {
-    /**
-     * The stack for storing request-response pairs.
-     *
-     * @var ResponseStack
-     */
     private readonly ResponseStack $stack;
 
-    /**
-     * Initializes the middleware and creates a response stack.
-     *
-     * @param ContainerInterface $container The dependency injection container.
-     *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
     public function __construct(ContainerInterface $container)
     {
         parent::__construct($container);
         $this->stack = new ResponseStack();
     }
 
-    /**
-     * Main method for processing JSON-RPC batch requests.
-     *
-     * Checks if the request is a batch request, then processes each individual
-     * request. Builds and returns a unified response for all requests.
-     *
-     * @param ServerRequestInterface  $request The original HTTP request.
-     * @param RequestHandlerInterface $handler The handler to process the request.
-     *
-     * @return ResponseInterface HTTP response with the results of the batch requests.
-     *
-     * @throws MethodNotFoundException If requested method is not found or not available.
-     * @throws ParseErrorException If there is an error parsing the request.
-     * @throws PayloadTooLargeException If the payload size exceeds the configured limit.
-     * @throws TooManyRequestsException If the number of requests in the batch exceeds the configured limit.
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->validatePayloadSize($request);
-
         $dataset = new Dataset($request);
 
         if (!$dataset->isBatchRequest()) {
-            $this->processSingleRequest($request, $dataset->getData(), $handler);
+            $this->processSingleRequest($request, $handler, $dataset->getData());
             return $this->createSingleResponse();
         }
 
@@ -86,38 +56,20 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         return $this->createBatchResponse();
     }
 
-    /**
-     * Processes each request in the batch.
-     *
-     * @param Dataset                 $dataset The dataset representing the batch request.
-     * @param ServerRequestInterface  $request The original HTTP request.
-     * @param RequestHandlerInterface $handler The handler to process each request.
-     *
-     * @throws MethodNotFoundException
-     */
-    private function processBatchRequests(Dataset $dataset, ServerRequestInterface $request, RequestHandlerInterface $handler): void
-    {
+    private function processBatchRequests(
+        Dataset $dataset,
+        ServerRequestInterface $request,
+        RequestHandlerInterface $handler
+    ): void {
         foreach ($dataset->getData() as $requestData) {
-            $this->processSingleRequest($request, $requestData, $handler);
+            $this->processSingleRequest($request, $handler, $requestData);
         }
     }
 
-    /**
-     * Processes a single request in the batch.
-     *
-     * Validates the request, checks method availability, and adds the result
-     * to the response stack.
-     *
-     * @param ServerRequestInterface  $request     The original HTTP request.
-     * @param array                   $requestData Data for a single JSON-RPC request.
-     * @param RequestHandlerInterface $handler     The handler to process the request.
-     *
-     * @throws MethodNotFoundException
-     */
     private function processSingleRequest(
         ServerRequestInterface $request,
-        array $requestData,
-        RequestHandlerInterface $handler
+        RequestHandlerInterface $handler,
+        array $requestData
     ): void {
         $jrpcRequest = null;
         try {
@@ -146,15 +98,6 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         }
     }
 
-
-    /**
-     * Prepares a cloned request with new data.
-     *
-     * @param ServerRequestInterface $request     The original HTTP request.
-     * @param array                  $requestData JSON-RPC data to write to the body of the cloned request.
-     *
-     * @return ServerRequestInterface The cloned request with a new body.
-     */
     private function prepareRequest(ServerRequestInterface $request, array $requestData): ServerRequestInterface
     {
         $localRequest = clone $request;
@@ -172,42 +115,20 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         return $localRequest->withBody($newBody);
     }
 
-    /**
-     * Creates a successful JSON-RPC response.
-     *
-     * @param JsonRpcRequest    $jrpcRequest The JSON-RPC request.
-     * @param ResponseInterface $response    The HTTP response.
-     *
-     * @return SuccessJsonRpcResponse A JSON-RPC success response object.
-     */
-    private function createSuccessResponse(JsonRpcRequest $jrpcRequest, ResponseInterface $response): SuccessJsonRpcResponse
-    {
+    private function createSuccessResponse(
+        JsonRpcRequest $jrpcRequest,
+        ResponseInterface $response
+    ): SuccessJsonRpcResponse {
         $decodedResponse = $this->decodeResponseContent($response);
         return new SuccessJsonRpcResponse($jrpcRequest->getId(), $decodedResponse);
     }
 
-    /**
-     * Creates a JSON-RPC error response.
-     *
-     * @param JsonRpcRequest $jrpcRequest The JSON-RPC request.
-     * @param Throwable      $exception   The exception containing error details.
-     *
-     * @return ErrorJsonRpcResponse A JSON-RPC error response object.
-     */
     private function createErrorResponse(JsonRpcRequest $jrpcRequest, Throwable $exception): ErrorJsonRpcResponse
     {
         $errorData = $this->formatter->formatError($exception);
         return new ErrorJsonRpcResponse($jrpcRequest->getId(), $errorData);
     }
 
-    /**
-     * Creates the HTTP response for a batch request.
-     *
-     * Depending on the contents of the response stack, this method builds a
-     * response with one or multiple JSON-RPC responses.
-     *
-     * @return ResponseInterface The HTTP response with the batch results.
-     */
     private function createBatchResponse(): ResponseInterface
     {
         if ($this->stack->isEmpty()) {
@@ -221,11 +142,6 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         return $this->createMultiResponse();
     }
 
-    /**
-     * Creates an HTTP response for a single JSON-RPC request.
-     *
-     * @return ResponseInterface HTTP response for a single request.
-     */
     private function createSingleResponse(): ResponseInterface
     {
         $stackItem = $this->stack->pop();
@@ -235,16 +151,13 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         }
 
         $response = $this->responseFactory->createResponse();
-        $response->getBody()->write(json_encode($stackItem->getResponse(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+        $response->getBody()->write(
+            json_encode($stackItem->getResponse(), JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES)
+        );
 
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * Creates an HTTP response for multiple JSON-RPC requests.
-     *
-     * @return ResponseInterface HTTP response for a batch request with multiple responses.
-     */
     private function createMultiResponse(): ResponseInterface
     {
         $responseBody = array_filter(array_map(function (ResponseItem $item) {
@@ -263,15 +176,6 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * Creates a JSON-RPC request from the Dataset.
-     *
-     * @param Dataset $dataset The dataset containing request data.
-     *
-     * @return JsonRpcRequest A new JSON-RPC request.
-     *
-     * @throws MethodNotFoundException If the method is not found.
-     */
     private function collectJsonRpcRequest(Dataset $dataset): JsonRpcRequest
     {
         return new JsonRpcRequest(
@@ -282,33 +186,20 @@ class JsonRpcBatchMiddleware extends JsonRpcBaseMiddleware
         );
     }
 
-    /**
-     * Decodes the content of an HTTP response.
-     *
-     * @param ResponseInterface $response The HTTP response to decode.
-     *
-     * @return mixed Decoded response content.
-     */
     private function decodeResponseContent(ResponseInterface $response): mixed
     {
         $rawContent = (string)$response->getBody();
         return $rawContent === '' ? null : json_decode($rawContent, true);
     }
 
-    /**
-     * Validates the number of requests in the batch against the configured limit.
-     *
-     * @param Dataset $dataset The dataset containing the batch content.
-     *
-     * @throws TooManyRequestsException If the number of requests in the batch exceeds the configured limit.
-     */
     private function validateBatchSize(Dataset $dataset): void
     {
         $batchSize = $this->options->getBatchSize();
+
         if (count($dataset->getData()) > $batchSize) {
             throw new TooManyRequestsException(content: [
                 'actual_count' => count($dataset->getData()),
-                'max_requests' => $batchSize
+                'allowed_count' => $batchSize
             ]);
         }
     }

@@ -12,15 +12,6 @@ use Bouledepate\JsonRpc\Exceptions\Core\MethodNotFoundException;
  */
 readonly class Method
 {
-    /**
-     * Method constructor.
-     *
-     * Initializes the object with the method name and validates it.
-     *
-     * @param string $name The name of the JSON-RPC method.
-     *
-     * @throws MethodNotFoundException If the method name starts with "rpc.", which is reserved for internal use.
-     */
     public function __construct(private string $name)
     {
         if (preg_match('/^rpc\./', $this->name)) {
@@ -31,11 +22,6 @@ readonly class Method
         }
     }
 
-    /**
-     * Retrieves the name of the method.
-     *
-     * @return string The name of the JSON-RPC method.
-     */
     public function getName(): string
     {
         return $this->name;

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc\Exceptions\Core;
 
-use Bouledepate\JsonRpc\Exceptions\JsonRpcException;
 use Exception;
 
 /**
@@ -20,11 +19,6 @@ final class MethodNotFoundException extends JsonRpcException
         'details' => 'The method does not exist or is not available'
     ];
 
-    /**
-     * @param array          $content  Additional content for the exception.
-     * @param bool           $rewrite  Whether to overwrite existing content or merge.
-     * @param Exception|null $previous Previous exception for exception chaining.
-     */
     public function __construct(
         array $content = [],
         bool $rewrite = true,

@@ -18,17 +18,11 @@ class ResponseItem
         $this->response = $response;
     }
 
-    /**
-     * @return JsonRpcRequest
-     */
     public function getRequest(): JsonRpcRequest
     {
         return $this->request;
     }
 
-    /**
-     * @return JsonRpcResponse
-     */
     public function getResponse(): JsonRpcResponse
     {
         return $this->response;

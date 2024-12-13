@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Bouledepate\JsonRpc;
 
-use Bouledepate\JsonRpc\Config\DefaultJsonRpcOptions;
-use Bouledepate\JsonRpc\Interfaces\OptionsInterface;
+use Bouledepate\JsonRpc\Config\JsonRpcOptions;
+use Bouledepate\JsonRpc\Config\OptionsInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -32,7 +32,7 @@ abstract class DefaultMiddleware implements MiddlewareInterface
      */
     public function __construct(protected readonly ContainerInterface $container)
     {
-        $this->options = $this->getContainerInstance(OptionsInterface::class, new DefaultJsonRpcOptions());
+        $this->options = $this->getContainerInstance(OptionsInterface::class, new JsonRpcOptions());
     }
 
     /**

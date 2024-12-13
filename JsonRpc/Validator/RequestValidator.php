@@ -13,9 +13,6 @@ use Bouledepate\JsonRpc\Model\Dataset;
  */
 final class RequestValidator implements ValidatorInterface
 {
-    /**
-     * @var array<string, array<string>> Defines the expected types for each JSON-RPC property.
-     */
     private const AVAILABLE_TYPES = [
         'jsonrpc' => ['string'],
         'method' => ['string'],
@@ -23,23 +20,11 @@ final class RequestValidator implements ValidatorInterface
         'id' => ['string', 'integer']
     ];
 
-    /**
-     * @var array<string> Defines the required properties for a valid JSON-RPC request.
-     */
     private const REQUIRED_PROPERTIES = [
         'jsonrpc',
         'method'
     ];
 
-    /**
-     * Validates the provided dataset against JSON-RPC request requirements.
-     *
-     * @param Dataset $dataset The dataset representing the JSON-RPC request data.
-     *
-     * @return void
-     *
-     * @throws InvalidRequestException If the dataset does not conform to the JSON-RPC specification.
-     */
     public function validate(Dataset $dataset): void
     {
         $errors = [];
@@ -53,14 +38,6 @@ final class RequestValidator implements ValidatorInterface
         }
     }
 
-    /**
-     * Validates that all required properties are present in the dataset.
-     *
-     * @param Dataset $dataset The dataset to validate.
-     * @param array   $errors  The array to accumulate validation errors.
-     *
-     * @return void
-     */
     private function validateRequiredProperties(Dataset $dataset, array &$errors): void
     {
         foreach (self::REQUIRED_PROPERTIES as $property) {
@@ -70,14 +47,6 @@ final class RequestValidator implements ValidatorInterface
         }
     }
 
-    /**
-     * Validates the types of properties in the dataset.
-     *
-     * @param Dataset $dataset The dataset to validate.
-     * @param array   $errors  The array to accumulate validation errors.
-     *
-     * @return void
-     */
     private function validatePropertyTypes(Dataset $dataset, array &$errors): void
     {
         foreach (self::AVAILABLE_TYPES as $property => $types) {
@@ -96,14 +65,6 @@ final class RequestValidator implements ValidatorInterface
         }
     }
 
-    /**
-     * Validates that the 'jsonrpc' property has the correct version.
-     *
-     * @param Dataset $dataset The dataset to validate.
-     * @param array   $errors  The array to accumulate validation errors.
-     *
-     * @return void
-     */
     private function validateJsonrpcVersion(Dataset $dataset, array &$errors): void
     {
         if ($dataset->hasProperty('jsonrpc') && $dataset->getProperty('jsonrpc') !== '2.0') {

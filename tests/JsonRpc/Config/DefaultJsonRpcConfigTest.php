@@ -18,6 +18,6 @@ final class DefaultJsonRpcConfigTest extends TestCase
     public function testBatchPayloadSize(): void
     {
         $config = new JsonRpcOptions();
-        $this->assertEquals(1024 * 1024, $config->getBatchPayloadSize());
+        $this->assertEquals(1024 * 1024, $config->getPayloadSize());
     }
 }

@@ -1,0 +1,26 @@
+{
+  "name": "bouledepate/slim-bill-split-api-demo",
+  "description": "Demo JSON-RPC API on Slim v4 for splitting restaurant bills",
+  "type": "project",
+  "require": {
+    "php": "^8.2",
+    "slim/slim": "^4.14",
+    "slim/psr7": "^1.7",
+    "php-di/php-di": "^7.0",
+    "bouledepate/php-jsonrpc": "*"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../../",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Demo\\BillApi\\": "src/"
+    }
+  }
+}
